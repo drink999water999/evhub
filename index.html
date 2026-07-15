@@ -283,6 +283,11 @@
     .snapshot-banner p{margin:4px 0 0;color:var(--slate-600);font-size:10px}
     .map-layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px}
     #charging-map{height:620px;border-radius:24px;overflow:hidden;background:var(--slate-200);box-shadow:var(--shadow-sm)}
+    #charging-map.charging-canvas-map{position:relative;isolation:isolate;background:linear-gradient(145deg,#dff6f8,#edf5ee 48%,#e9e1cd)}
+    #charging-map.charging-canvas-map canvas{display:block;width:100%;height:100%;cursor:pointer;touch-action:manipulation}
+    .charging-map-legend{position:absolute;z-index:2;inset-block-end:12px;inset-inline:12px;display:flex;justify-content:center;flex-wrap:wrap;gap:7px;pointer-events:none}
+    .charging-map-legend span{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;border:1px solid rgba(255,255,255,.82);border-radius:999px;background:rgba(255,255,255,.88);color:var(--slate-600);font-size:8px;font-weight:800;box-shadow:var(--shadow-sm);backdrop-filter:blur(10px)}
+    .charging-map-legend i{width:9px;height:9px;border-radius:50%;background:#0e7490}.charging-map-legend i.fast{background:#06b6d4}.charging-map-legend i.ultra{background:#84cc16}
     .map-fallback{display:grid;place-items:center;height:100%;padding:30px;text-align:center;color:var(--slate-600)}
     .station-side{display:flex;flex-direction:column;min-height:620px;max-height:620px;overflow:hidden}
     .station-filters{padding:15px;border-block-end:1px solid var(--slate-100)}
@@ -1561,14 +1566,39 @@
         showToast(bi({ar:"لم نتمكن من استخدام موقعك",en:"We could not use your location"}));
       },{enableHighAccuracy:true,timeout:12000,maximumAge:120000});
     }
+    function chargingCanvasBounds(list){
+      if(!list.length){return {minLat:16,maxLat:33.5,minLng:34.5,maxLng:56}}
+      var minLat=Math.min.apply(null,list.map(function(s){return s.lat})),maxLat=Math.max.apply(null,list.map(function(s){return s.lat})),minLng=Math.min.apply(null,list.map(function(s){return s.lng})),maxLng=Math.max.apply(null,list.map(function(s){return s.lng}));
+      var latPad=Math.max(.24,(maxLat-minLat)*.22),lngPad=Math.max(.32,(maxLng-minLng)*.18);
+      return {minLat:minLat-latPad,maxLat:maxLat+latPad,minLng:minLng-lngPad,maxLng:maxLng+lngPad};
+    }
+    function renderChargingCanvas(map){
+      if(!map||!map.canvas||!map.canvas.isConnected){return}
+      var rect=map.canvas.getBoundingClientRect(),w=Math.max(320,Math.round(rect.width||map.container.clientWidth||760)),h=Math.max(300,Math.round(rect.height||map.container.clientHeight||620)),dpr=Math.min(2,window.devicePixelRatio||1),ctx=map.canvas.getContext("2d");
+      map.width=w;map.height=h;map.canvas.width=Math.round(w*dpr);map.canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+      var bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,"#d9f2f5");bg.addColorStop(.5,"#edf6ee");bg.addColorStop(1,"#e8dfc9");ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+      ctx.strokeStyle="rgba(14,116,144,.09)";ctx.lineWidth=1;for(var gx=35;gx<w;gx+=65){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,h);ctx.stroke()}for(var gy=30;gy<h;gy+=55){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(w,gy);ctx.stroke()}
+      var nationalView=(map.bounds.maxLng-map.bounds.minLng)>8;
+      if(nationalView){var outline=[[34.7,29.2],[38.8,31.7],[45.4,32.1],[49.2,29.2],[55.5,24.3],[52.2,18.2],[48.1,16.6],[43.3,17.2],[39.0,20.3],[38.2,24.0],[34.7,29.2]];ctx.beginPath();outline.forEach(function(point,i){var q=rangeCanvasProject(map,point[1],point[0]);if(i){ctx.lineTo(q.x,q.y)}else{ctx.moveTo(q.x,q.y)}});ctx.closePath();ctx.fillStyle="rgba(255,255,255,.68)";ctx.fill();ctx.strokeStyle="rgba(51,65,85,.24)";ctx.lineWidth=1.5;ctx.stroke()}
+      ["Riyadh","Jeddah","Dammam","Makkah","Madinah","Abha"].forEach(function(key){var city=batteryCityProfile(key);if(city.lat<map.bounds.minLat||city.lat>map.bounds.maxLat||city.lng<map.bounds.minLng||city.lng>map.bounds.maxLng){return}var q=rangeCanvasProject(map,city.lat,city.lng);ctx.fillStyle="#64748b";ctx.font='700 10px "Noto Sans Arabic", "Manrope", sans-serif';ctx.textAlign="center";ctx.fillText(bi(city.label),q.x,q.y-14)});
+      map.markerPoints=[];map.list.forEach(function(s,index){var q=rangeCanvasProject(map,s.lat,s.lng),color=s.power>=300?"#84cc16":s.power>=150?"#06b6d4":"#0e7490";ctx.beginPath();ctx.arc(q.x,q.y,15,0,Math.PI*2);ctx.fillStyle="rgba(255,255,255,.78)";ctx.fill();ctx.beginPath();ctx.arc(q.x,q.y,10,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=3;ctx.stroke();ctx.fillStyle="#0b1220";ctx.font='800 9px "Manrope", sans-serif';ctx.textAlign="center";ctx.fillText(s.power+" kW",q.x,q.y+25+(index%2)*12);map.markerPoints.push({x:q.x,y:q.y,station:s})});
+      if(!map.list.length){ctx.fillStyle="#334155";ctx.font='800 14px "Noto Sans Arabic", "Manrope", sans-serif';ctx.textAlign="center";ctx.fillText(bi({ar:"لا توجد محطات تطابق الفلتر الحالي",en:"No stations match the current filters"}),w/2,h/2)}
+    }
+    function initChargingCanvasMap(container,list){
+      container.classList.add("charging-canvas-map");container.innerHTML='<canvas aria-label="'+esc(bi({ar:"خريطة محطات شحن تفاعلية تعمل محليًا",en:"Locally available interactive charging map"}))+'"></canvas><div class="range-canvas-badge"><i class="fa-solid fa-charging-station" aria-hidden="true"></i>'+bi({ar:"خريطة الشحن المحلية",en:"Local charging map"})+'</div><div class="charging-map-legend"><span><i></i>50+ kW</span><span><i class="fast"></i>150+ kW</span><span><i class="ultra"></i>300+ kW</span></div>';
+      var canvas=container.querySelector("canvas"),map={kind:"charging-canvas",container:container,canvas:canvas,bounds:chargingCanvasBounds(list),list:list,markerPoints:[],width:0,height:0,observer:null,remove:function(){if(this.observer){this.observer.disconnect()}}};mapInstance=map;mapMarkers=list.slice();
+      canvas.addEventListener("click",function(event){var rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top,best=null,distance=Infinity;map.markerPoints.forEach(function(point){var d=Math.hypot(point.x-x,point.y-y);if(d<distance){distance=d;best=point}});if(best&&distance<=30){openStation(best.station.id)}});
+      canvas.addEventListener("mousemove",function(event){var rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top,near=map.markerPoints.some(function(point){return Math.hypot(point.x-x,point.y-y)<=25});canvas.style.cursor=near?"pointer":"default"});
+      if("ResizeObserver" in window){map.observer=new ResizeObserver(function(){renderChargingCanvas(map)});map.observer.observe(container)}renderChargingCanvas(map);
+    }
     function initMap(){
       var container=document.getElementById("charging-map");
       if(!container){return}
-      if(!window.L){container.innerHTML='<div class="map-fallback"><div><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><p>'+bi({ar:"تعذر تحميل الخريطة. استخدم القائمة الكاملة بجانبها.",en:"The map could not load. Use the complete station list beside it."})+'</p></div></div>';return}
+      var list=filteredStations();
+      if(!window.L){initChargingCanvasMap(container,list);return}
       try{
-        var list=filteredStations();
         mapInstance=L.map(container,{zoomControl:true,scrollWheelZoom:false}).setView([24.7136,46.6753],6);
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"&copy; OpenStreetMap contributors"}).addTo(mapInstance);
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{minZoom:4,maxZoom:19,attribution:"&copy; OpenStreetMap contributors",crossOrigin:true}).addTo(mapInstance);
         var bounds=[];
         list.forEach(function(s){
           var color=s.power>=300?"#84cc16":s.power>=150?"#06b6d4":"#0e7490";
@@ -1579,9 +1609,8 @@
         });
         if(bounds.length>1){mapInstance.fitBounds(bounds,{padding:[45,45]})}
         else if(bounds.length===1){mapInstance.setView(bounds[0],12)}
-      }catch(error){
-        container.innerHTML='<div class="map-fallback"><div><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><p>'+bi({ar:"الخريطة غير متاحة الآن. ما زالت القائمة قابلة للاستخدام.",en:"Map unavailable right now. The list remains fully usable."})+'</p></div></div>';
-      }
+        setTimeout(function(){if(mapInstance&&mapInstance.invalidateSize){mapInstance.invalidateSize()}},120);
+      }catch(error){try{if(mapInstance&&mapInstance.remove){mapInstance.remove()}}catch(e){}mapInstance=null;initChargingCanvasMap(container,list)}
     }
     function openSaved(){
       var list=Array.from(state.saved).map(function(id){return vehicles.find(function(v){return v.id===id})}).filter(Boolean);

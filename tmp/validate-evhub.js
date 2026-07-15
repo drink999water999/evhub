@@ -106,11 +106,19 @@ results.mapDistanceCheckKm = Math.round(riyadhJeddahKm);
 if (!html.includes('location.protocol==="file:"') || !html.includes("initRangeCanvasMap(container,v,base)")) {
   throw new Error("Local-file map fallback is not wired into vehicle pages");
 }
+if (!html.includes("function initChargingCanvasMap") || !html.includes("initChargingCanvasMap(container,list)")) {
+  throw new Error("Local-file map fallback is not wired into the charging page");
+}
 const canvasProjection = new vm.Script("var m={bounds:{minLat:16,maxLat:33.5,minLng:34.5,maxLng:56},width:900,height:430};var p=rangeCanvasProject(m,24.7136,46.6753);rangeCanvasCoordinate(m,p.x,p.y)").runInContext(context);
 if (Math.abs(canvasProjection.lat - 24.7136) > 0.001 || Math.abs(canvasProjection.lng - 46.6753) > 0.001) {
   throw new Error("Local range-map coordinate projection is inconsistent");
 }
 results.localMapProjection = "passed";
+const chargingBounds = new vm.Script("chargingCanvasBounds(stations.filter(function(s){return s.cityKey==='Jeddah'}))").runInContext(context);
+if (!(chargingBounds.minLat < chargingBounds.maxLat && chargingBounds.minLng < chargingBounds.maxLng)) {
+  throw new Error("Charging map does not produce valid filtered bounds");
+}
+results.localChargingMap = "passed";
 
 new vm.Script("state.rangePlanner={charge:100,reserve:5,temp:25,mode:'city'}").runInContext(context);
 const bestRange = new vm.Script("vehicleUsableRange(vehicles[0]).km").runInContext(context);
