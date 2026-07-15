@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Noto+Sans+Arabic:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="Media/vendor/leaflet/leaflet.css">
   <style>
     :root{
       --brand-50:#ecfeff;--brand-100:#cffafe;--brand-400:#22d3ee;--brand-500:#06b6d4;
@@ -427,6 +427,15 @@
     .vehicle-range-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-block-end:15px}
     .vehicle-range-head h2{margin-block-end:6px}
     #vehicle-range-map{height:430px;overflow:hidden;border-radius:18px;background:var(--slate-200)}
+    #vehicle-range-map.range-canvas-map{position:relative;isolation:isolate;background:linear-gradient(145deg,#dff6f8,#edf5ee 48%,#e9e1cd)}
+    #vehicle-range-map.range-canvas-map canvas{display:block;width:100%;height:100%;cursor:crosshair;touch-action:manipulation}
+    .range-canvas-badge{position:absolute;z-index:2;inset-block-start:12px;inset-inline-start:12px;display:flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid rgba(255,255,255,.82);border-radius:999px;background:rgba(11,18,32,.82);color:white;font-size:9px;font-weight:800;box-shadow:var(--shadow-sm);backdrop-filter:blur(10px);pointer-events:none}
+    .range-canvas-hint{position:absolute;z-index:2;inset-block-end:12px;inset-inline:12px;margin:auto;width:max-content;max-width:calc(100% - 24px);padding:8px 12px;border:1px solid rgba(255,255,255,.78);border-radius:11px;background:rgba(255,255,255,.86);color:var(--slate-600);font-size:9px;font-weight:700;text-align:center;box-shadow:var(--shadow-sm);backdrop-filter:blur(10px);pointer-events:none}
+    .range-planner-controls{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-block:0 14px;padding:15px;border:1px solid var(--slate-200);border-radius:17px;background:linear-gradient(135deg,var(--slate-50),white)}
+    .range-planner-controls .field{margin:0}
+    .range-planner-output{display:flex;align-items:center;justify-content:space-between;gap:12px;grid-column:1/-1;padding-block-start:11px;border-block-start:1px solid var(--slate-200)}
+    .range-planner-output span{color:var(--slate-500);font-size:10px}
+    .range-planner-output strong{color:var(--brand-700);font:800 clamp(24px,4vw,36px)/1 "Manrope",sans-serif}
     .range-map-legend{display:flex;flex-wrap:wrap;gap:8px;margin-block-start:12px}
     .legend-item{display:inline-flex;align-items:center;gap:7px;color:var(--slate-600);font-size:9px;font-weight:700}
     .legend-dot{width:11px;height:11px;border-radius:50%;background:var(--brand-500)}
@@ -515,6 +524,7 @@
       .smart-hero,.smart-live-grid{grid-template-columns:1fr}
       .battery-predictor-grid,.account-grid{grid-template-columns:1fr}
       .decision-strip{grid-template-columns:1fr 1fr}
+      .range-planner-controls{grid-template-columns:1fr 1fr}
       .mobile-nav{position:fixed;z-index:1100;inset-block-end:0;inset-inline:0;display:grid;grid-template-columns:repeat(5,1fr);padding:7px 8px calc(7px + env(safe-area-inset-bottom));border-block-start:1px solid var(--slate-200);background:rgba(255,255,255,.94);backdrop-filter:blur(16px)}
       .mobile-link{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:49px;border-radius:12px;color:var(--slate-500);font-size:8px;font-weight:800}
       .mobile-link i{font-size:16px}
@@ -584,6 +594,8 @@
       .vehicle-range-head{display:flex}
       .vehicle-range-head .btn{width:100%}
       #vehicle-range-map{height:330px}
+      .range-planner-controls{grid-template-columns:1fr 1fr}
+      .range-planner-output{align-items:flex-start;flex-direction:column}
       .account-action-grid{grid-template-columns:1fr}
       .model-controls{grid-template-columns:1fr}
       .range-trip-result{grid-template-columns:40px minmax(0,1fr)}
@@ -661,7 +673,7 @@
     <div id="dialog-body" class="dialog-body"></div>
   </dialog>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="Media/vendor/leaflet/leaflet.js"></script>
   <script>
     "use strict";
     const I18N={
@@ -743,6 +755,7 @@
       charging:{city:"all",power:0},
       smart:JSON.parse(localStorage.getItem("evhub-profile")||'{"vehicle":"lucid-air","city":"Riyadh","tab":"climate"}'),
       battery:JSON.parse(localStorage.getItem("evhub-battery")||'{"city":"Riyadh","usage":"regular","dailyKm":38,"daysWeek":4,"dcShare":25,"sunExposure":1}'),
+      rangePlanner:JSON.parse(localStorage.getItem("evhub-range-planner")||'{"charge":90,"reserve":10,"temp":44,"mode":"mixed"}'),
       tools:JSON.parse(localStorage.getItem("evhub-tools")||'{"vehicle":"lucid-air","temp":44,"speed":120,"ac":2,"load":3,"terrain":1,"annual":24000,"homeShare":75,"homeRate":0.18,"publicRate":0.99,"petrolPrice":2.33,"petrolEff":12,"chargerCost":6500}'),
       adminQueue:[
         {id:1,title:{ar:"BYD Seal — إعلان مستورد",en:"BYD Seal — imported listing"},meta:{ar:"الضمان المحلي غير موثق",en:"Local warranty unverified"}},
@@ -753,10 +766,13 @@
     state.smart.city=state.battery.city;
     var initialUsage={heavy:{dailyKm:110,daysWeek:7,dcShare:55,sunExposure:2},regular:{dailyKm:38,daysWeek:4,dcShare:25,sunExposure:1},light:{dailyKm:15,daysWeek:2,dcShare:10,sunExposure:0}}[state.battery.usage]||{dailyKm:38,daysWeek:4,dcShare:25,sunExposure:1};
     ["dailyKm","daysWeek","dcShare","sunExposure"].forEach(function(key){if(state.battery[key]==null){state.battery[key]=initialUsage[key]}});
+    var rangeDefaults={charge:90,reserve:10,temp:44,mode:"mixed"};
+    Object.keys(rangeDefaults).forEach(function(key){if(state.rangePlanner[key]==null){state.rangePlanner[key]=rangeDefaults[key]}});
     let mapInstance=null;
     let vehicleRangeMap=null;
     let vehicleRangeLayers=[];
     let vehicleRangeContext=null;
+    let vehicleRouteRequest=0;
     let mapMarkers=[];
     let dialogReturnFocus=null;
     let toastTimer=null;
@@ -804,6 +820,7 @@
       localStorage.setItem("evhub-tools",JSON.stringify(state.tools));
       localStorage.setItem("evhub-battery",JSON.stringify(state.battery));
       localStorage.setItem("evhub-profile",JSON.stringify(state.smart));
+      localStorage.setItem("evhub-range-planner",JSON.stringify(state.rangePlanner));
     }
     function updateShell(){
       document.documentElement.lang=state.lang;
@@ -1117,9 +1134,17 @@
       if(insight){insight.innerHTML=bi({ar:"في هذا السيناريو، المناخ وطريقة الاستخدام ينتجان تراجعًا تقديريًا قدره ",en:"In this scenario, climate and use produce an estimated decline of "})+'<bdi>'+p.annual.toFixed(2)+'%</bdi> '+bi({ar:"سنويًا.",en:"per year."})}
       persist();
     }
+    function vehicleUsableRange(v){
+      var r=state.rangePlanner,temp=Number(r.temp),charge=Math.max(20,Math.min(100,Number(r.charge))),reserve=Math.max(0,Math.min(30,Number(r.reserve)));
+      var heat=temp>25?Math.max(.78,1-(temp-25)*.0055):temp<15?Math.max(.86,1-(15-temp)*.009):1;
+      var mode={city:1.05,mixed:1,highway:.94}[r.mode]||1;
+      var soh=Math.max(.65,Math.min(1,Number(v.battery.soh||100)/100)),available=Math.max(.1,(charge-reserve)/100);
+      var km=Math.max(10,v.range.km*heat*mode*.98*soh*available);
+      return {km:km,charge:charge,reserve:reserve,temp:temp,mode:r.mode,heat:heat,soh:soh};
+    }
     function vehicleRangeCard(v){
-      var base=batteryCityProfile(state.battery.city),oneWay=Math.round(v.range.ksa),roundTrip=Math.round(v.range.ksa*.46);
-      return '<section id="range-map" class="content-card card reveal decision-card"><div class="vehicle-range-head"><div><span class="badge badge-brand"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>'+bi({ar:"خريطة شحنة واحدة",en:"One-charge map"})+'</span><h2 style="margin-block-start:10px">'+bi({ar:"إلى أين تستطيع الوصول؟",en:"How far can you reach?"})+'</h2><p class="muted tiny">'+bi({ar:"نبدأ من ",en:"Starting from "})+esc(bi(base.label))+' · '+bi({ar:"استخدم موقعك، ثم اضغط أي مكان على الخريطة لاختبار الرحلة.",en:"use your location, then tap anywhere on the map to test a trip."})+'</p></div><button class="btn btn-primary" type="button" data-action="locate-range" data-id="'+v.id+'"><i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i>'+bi({ar:"استخدم موقعي",en:"Use my location"})+'</button></div><div id="vehicle-range-map" role="region" aria-label="'+esc(bi({ar:"خريطة المدى المتوقع بشحنة واحدة",en:"Expected one-charge range map"}))+'"><div class="map-fallback"><div><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i><p>'+bi({ar:"جارٍ تجهيز نطاق المدى…",en:"Preparing the range area…"})+'</p></div></div></div><div id="range-trip-result" class="range-trip-result"><i class="fa-solid fa-location-arrow" aria-hidden="true"></i><div><strong>'+bi({ar:"اختر وجهة على الخريطة",en:"Choose a destination on the map"})+'</strong><p>'+bi({ar:"سنحسب المسافة ونسبة البطارية المتوقعة وإمكانية العودة.",en:"We will calculate distance, expected battery remaining and return feasibility."})+'</p></div><b><bdi>— km</bdi></b></div><div class="range-map-legend"><span class="legend-item"><span class="legend-dot"></span><bdi>'+oneWay+' km</bdi> '+bi({ar:"وصول باتجاه واحد",en:"one-way reach"})+'</span><span class="legend-item"><span class="legend-dot safe"></span><bdi>'+roundTrip+' km</bdi> '+bi({ar:"نطاق آمن للذهاب والعودة",en:"safer round-trip radius"})+'</span></div><p id="range-location-status" class="disclaimer">'+bi({ar:"المسافة المختارة تُحسب جغرافيًا من نقطة البداية. الطريق الفعلي والارتفاع والرياح قد تغير النتيجة.",en:"Selected distance is measured geographically from the origin. Actual roads, elevation and wind can change the result."})+'</p></section>';
+      var base=batteryCityProfile(state.battery.city),plan=vehicleUsableRange(v),oneWay=Math.round(plan.km),roundTrip=Math.round(plan.km*.46),r=state.rangePlanner;
+      return '<section id="range-map" class="content-card card reveal decision-card"><div class="vehicle-range-head"><div><span class="badge badge-brand"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>'+bi({ar:"مخطط مدى السيارة",en:"Vehicle range planner"})+'</span><h2 style="margin-block-start:10px">'+bi({ar:"إلى أين تستطيع الوصول فعلًا؟",en:"How far can you actually reach?"})+'</h2><p class="muted tiny">'+bi({ar:"اضبط نقطة البداية والشحن والحرارة وطبيعة الطريق، ثم اختر وجهة.",en:"Set the origin, charge, temperature and road type, then choose a destination."})+'</p></div><button class="btn btn-primary" type="button" data-action="locate-range" data-id="'+v.id+'"><i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i>'+bi({ar:"استخدم موقعي",en:"Use my location"})+'</button></div><div class="range-planner-controls"><div class="field"><label for="range-base-city">'+bi({ar:"نقطة البداية",en:"Starting city"})+'</label><select id="range-base-city" class="select" data-battery="city">'+["Riyadh","Jeddah","Dammam","Makkah","Madinah","Abha"].map(function(key){return '<option value="'+key+'" '+(state.battery.city===key?"selected":"")+'>'+esc(bi(batteryCityProfile(key).label))+'</option>'}).join("")+'</select></div><div class="field"><div class="field-output"><label for="range-charge">'+bi({ar:"الشحن عند الانطلاق",en:"Starting charge"})+'</label><output id="range-charge-output"><bdi>'+r.charge+'%</bdi></output></div><input id="range-charge" type="range" min="20" max="100" step="5" value="'+r.charge+'" data-range-plan="charge" data-vehicle="'+v.id+'"></div><div class="field"><div class="field-output"><label for="range-reserve">'+bi({ar:"احتياطي الوصول",en:"Arrival reserve"})+'</label><output id="range-reserve-output"><bdi>'+r.reserve+'%</bdi></output></div><input id="range-reserve" type="range" min="0" max="30" step="5" value="'+r.reserve+'" data-range-plan="reserve" data-vehicle="'+v.id+'"></div><div class="field"><div class="field-output"><label for="range-temp">'+bi({ar:"درجة الحرارة",en:"Temperature"})+'</label><output id="range-temp-output"><bdi>'+r.temp+'°C</bdi></output></div><input id="range-temp" type="range" min="5" max="50" step="1" value="'+r.temp+'" data-range-plan="temp" data-vehicle="'+v.id+'"></div><div class="field"><label for="range-mode">'+bi({ar:"طبيعة القيادة",en:"Driving type"})+'</label><select id="range-mode" class="select" data-range-plan="mode" data-vehicle="'+v.id+'"><option value="city" '+(r.mode==="city"?"selected":"")+'>'+bi({ar:"داخل المدينة",en:"City"})+'</option><option value="mixed" '+(r.mode==="mixed"?"selected":"")+'>'+bi({ar:"مختلطة",en:"Mixed"})+'</option><option value="highway" '+(r.mode==="highway"?"selected":"")+'>'+bi({ar:"طريق سريع",en:"Highway"})+'</option></select></div><div class="range-planner-output"><span>'+bi({ar:"المدى القابل للاستخدام حتى الاحتياطي",en:"Usable range before reserve"})+'</span><strong id="range-plan-result"><bdi>'+oneWay+' km</bdi></strong></div></div><div id="vehicle-range-map" role="region" aria-label="'+esc(bi({ar:"خريطة المدى المتوقع بشحنة واحدة",en:"Expected one-charge range map"}))+'"><div class="map-fallback"><div><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i><p>'+bi({ar:"جارٍ تجهيز نطاق المدى…",en:"Preparing the range area…"})+'</p></div></div></div><div id="range-trip-result" class="range-trip-result"><i class="fa-solid fa-location-arrow" aria-hidden="true"></i><div><strong>'+bi({ar:"اختر وجهة على الخريطة",en:"Choose a destination on the map"})+'</strong><p>'+bi({ar:"سنحاول حساب مسار الطريق، مع بديل جغرافي موثوق عند تعذر الخدمة.",en:"We will calculate a road route, with a reliable geographic fallback if routing is unavailable."})+'</p></div><b><bdi>— km</bdi></b></div><div class="range-map-legend"><span class="legend-item"><span class="legend-dot"></span><bdi id="range-one-way">'+oneWay+' km</bdi> '+bi({ar:"مدى قابل للاستخدام",en:"usable one-way range"})+'</span><span class="legend-item"><span class="legend-dot safe"></span><bdi id="range-round-trip">'+roundTrip+' km</bdi> '+bi({ar:"نطاق آمن للذهاب والعودة",en:"safer round-trip radius"})+'</span></div><p id="range-location-status" class="disclaimer">'+bi({ar:"اضغط على الخريطة لاختيار وجهة. سنعرض مسافة الطريق إذا توفرت خدمة المسارات، وإلا نعرض المسافة الجغرافية بوضوح.",en:"Tap the map to choose a destination. Road distance is shown when routing is available; otherwise geographic distance is clearly labelled."})+'</p></section>';
     }
     function detailView(id){
       var v=vehicles.find(function(item){return item.id===id})||vehicles[0];
@@ -1410,48 +1435,119 @@
       if(document.getElementById("fuel-cost-bar")){document.getElementById("fuel-cost-bar").style.width=Math.round(fuelCost/max*100)+"%"}
       persist();
     }
+    function rangeCanvasProject(map,lat,lng){
+      var b=map.bounds,p=30,w=map.width,h=map.height;
+      return {x:p+(lng-b.minLng)/(b.maxLng-b.minLng)*(w-p*2),y:p+(b.maxLat-lat)/(b.maxLat-b.minLat)*(h-p*2)};
+    }
+    function rangeCanvasCoordinate(map,x,y){
+      var b=map.bounds,p=30,w=map.width,h=map.height;
+      return {lng:b.minLng+Math.max(0,Math.min(1,(x-p)/(w-p*2)))*(b.maxLng-b.minLng),lat:b.maxLat-Math.max(0,Math.min(1,(y-p)/(h-p*2)))*(b.maxLat-b.minLat)};
+    }
+    function renderRangeCanvas(map){
+      if(!map||!map.canvas||!map.canvas.isConnected){return}
+      var rect=map.canvas.getBoundingClientRect(),w=Math.max(320,Math.round(rect.width||map.container.clientWidth||900)),h=Math.max(280,Math.round(rect.height||map.container.clientHeight||430)),dpr=Math.min(2,window.devicePixelRatio||1),ctx=map.canvas.getContext("2d");
+      map.width=w;map.height=h;map.canvas.width=Math.round(w*dpr);map.canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+      var bg=ctx.createLinearGradient(0,0,w,h);bg.addColorStop(0,"#d9f2f5");bg.addColorStop(.48,"#edf6ee");bg.addColorStop(1,"#e8dfc9");ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+      ctx.save();ctx.strokeStyle="rgba(14,116,144,.09)";ctx.lineWidth=1;
+      for(var gx=40;gx<w;gx+=70){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,h);ctx.stroke()}
+      for(var gy=35;gy<h;gy+=58){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(w,gy);ctx.stroke()}ctx.restore();
+      var outline=[[34.7,29.2],[38.8,31.7],[45.4,32.1],[49.2,29.2],[55.5,24.3],[52.2,18.2],[48.1,16.6],[43.3,17.2],[39.0,20.3],[38.2,24.0],[34.7,29.2]];
+      ctx.beginPath();outline.forEach(function(point,i){var q=rangeCanvasProject(map,point[1],point[0]);if(i){ctx.lineTo(q.x,q.y)}else{ctx.moveTo(q.x,q.y)}});ctx.closePath();ctx.fillStyle="rgba(255,255,255,.72)";ctx.fill();ctx.strokeStyle="rgba(51,65,85,.24)";ctx.lineWidth=1.5;ctx.stroke();
+      ["Riyadh","Jeddah","Dammam","Makkah","Madinah","Abha"].forEach(function(key){var city=batteryCityProfile(key),q=rangeCanvasProject(map,city.lat,city.lng);ctx.beginPath();ctx.arc(q.x,q.y,3.2,0,Math.PI*2);ctx.fillStyle="rgba(51,65,85,.58)";ctx.fill();ctx.fillStyle="#475569";ctx.font='700 10px "Noto Sans Arabic", "Manrope", sans-serif';ctx.textAlign="center";ctx.fillText(bi(city.label),q.x,q.y-8)});
+      var model=map.model;if(!model||!model.origin){return}
+      var origin=rangeCanvasProject(map,model.origin.lat,model.origin.lng),plan=model.plan,cos=Math.max(.35,Math.cos(model.origin.lat*Math.PI/180)),rx=plan.km/(111*cos)*(w-60)/(map.bounds.maxLng-map.bounds.minLng),ry=plan.km/111*(h-60)/(map.bounds.maxLat-map.bounds.minLat);
+      ctx.save();ctx.beginPath();ctx.ellipse(origin.x,origin.y,rx,ry,0,0,Math.PI*2);ctx.fillStyle="rgba(34,211,238,.10)";ctx.fill();ctx.strokeStyle="#0891b2";ctx.lineWidth=2;ctx.stroke();ctx.beginPath();ctx.ellipse(origin.x,origin.y,rx*.46,ry*.46,0,0,Math.PI*2);ctx.fillStyle="rgba(163,230,53,.14)";ctx.fill();ctx.strokeStyle="#65a30d";ctx.setLineDash([7,5]);ctx.stroke();ctx.restore();
+      if(model.destination){
+        var coords=model.geometry&&model.geometry.coordinates?model.geometry.coordinates:null;ctx.beginPath();
+        if(coords&&coords.length){coords.forEach(function(point,i){var q=rangeCanvasProject(map,point[1],point[0]);if(i){ctx.lineTo(q.x,q.y)}else{ctx.moveTo(q.x,q.y)}})}else{var destLine=rangeCanvasProject(map,model.destination.lat,model.destination.lng);ctx.moveTo(origin.x,origin.y);ctx.lineTo(destLine.x,destLine.y);ctx.setLineDash([8,7])}
+        ctx.strokeStyle=model.destination.color||"#0891b2";ctx.lineWidth=4;ctx.lineCap="round";ctx.lineJoin="round";ctx.stroke();ctx.setLineDash([]);
+        var destination=rangeCanvasProject(map,model.destination.lat,model.destination.lng);ctx.beginPath();ctx.arc(destination.x,destination.y,8,0,Math.PI*2);ctx.fillStyle=model.destination.color||"#0891b2";ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=3;ctx.stroke();
+      }
+      ctx.beginPath();ctx.arc(origin.x,origin.y,9,0,Math.PI*2);ctx.fillStyle="#0b1220";ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=3;ctx.stroke();ctx.fillStyle="#0b1220";ctx.font='800 11px "Noto Sans Arabic", "Manrope", sans-serif';ctx.textAlign="center";ctx.fillText(model.origin.source,origin.x,origin.y+25);
+    }
+    function initRangeCanvasMap(container,v,base){
+      container.classList.add("range-canvas-map");container.innerHTML='<canvas aria-label="'+esc(bi({ar:"خريطة مدى تفاعلية تعمل محليًا",en:"Locally available interactive range map"}))+'"></canvas><div class="range-canvas-badge"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>'+bi({ar:"خريطة EVHUB المحلية",en:"EVHUB local map"})+'</div><div class="range-canvas-hint">'+bi({ar:"اضغط على أي نقطة لاختبار إمكانية الوصول",en:"Tap anywhere to test reachability"})+'</div>';
+      var canvas=container.querySelector("canvas"),map={kind:"canvas",container:container,canvas:canvas,bounds:{minLat:16,maxLat:33.5,minLng:34.5,maxLng:56},model:{},width:0,height:0,observer:null,remove:function(){if(this.observer){this.observer.disconnect()}},removeLayer:function(){}};
+      vehicleRangeMap=map;canvas.addEventListener("click",function(event){var rect=canvas.getBoundingClientRect(),point=rangeCanvasCoordinate(map,event.clientX-rect.left,event.clientY-rect.top);evaluateRangeDestination(point.lat,point.lng)});
+      if("ResizeObserver" in window){map.observer=new ResizeObserver(function(){renderRangeCanvas(map)});map.observer.observe(container)}
+      drawVehicleRange(v,base.lat,base.lng,bi(base.label));
+    }
+    function syncRangeOutput(plan){
+      var one=document.getElementById("range-one-way"),round=document.getElementById("range-round-trip"),total=document.getElementById("range-plan-result");
+      if(one){one.textContent=Math.round(plan.km)+" km"}if(round){round.textContent=Math.round(plan.km*.46)+" km"}if(total){total.innerHTML="<bdi>"+Math.round(plan.km)+" km</bdi>"}
+    }
+    function resetRangeTripResult(){
+      var result=document.getElementById("range-trip-result");
+      if(result){result.className="range-trip-result";result.innerHTML='<i class="fa-solid fa-location-arrow" aria-hidden="true"></i><div><strong>'+bi({ar:"اختر وجهة على الخريطة",en:"Choose a destination on the map"})+'</strong><p>'+bi({ar:"سنحسب مسار الطريق ونسبة البطارية المتوقعة.",en:"We will calculate the road route and expected battery remaining."})+'</p></div><b><bdi>— km</bdi></b>'}
+    }
     function drawVehicleRange(v,lat,lng,source){
       if(!vehicleRangeMap){return}
+      vehicleRouteRequest++;
+      var plan=vehicleUsableRange(v);
+      if(vehicleRangeMap.kind==="canvas"){
+        vehicleRangeContext={vehicle:v,lat:lat,lng:lng,source:source};vehicleRangeMap.model={origin:{lat:lat,lng:lng,source:source},plan:plan,destination:null,geometry:null};renderRangeCanvas(vehicleRangeMap);syncRangeOutput(plan);resetRangeTripResult();return;
+      }
       vehicleRangeLayers.forEach(function(layer){try{vehicleRangeMap.removeLayer(layer)}catch(e){}});
       vehicleRangeLayers=[];
       vehicleRangeContext={vehicle:v,lat:lat,lng:lng,source:source};
-      var oneWay=Math.max(20,Number(v.range.ksa))*1000,roundTrip=oneWay*.46;
-      var origin=L.marker([lat,lng]).addTo(vehicleRangeMap).bindTooltip(source,{permanent:false,direction:"top"});
+      var oneWay=plan.km*1000,roundTrip=oneWay*.46;
+      var origin=L.circleMarker([lat,lng],{radius:9,color:"#fff",weight:3,fillColor:"#0b1220",fillOpacity:1}).addTo(vehicleRangeMap).bindTooltip(source,{permanent:false,direction:"top"});
       var reach=L.circle([lat,lng],{radius:oneWay,color:"#0891b2",weight:2,fillColor:"#22d3ee",fillOpacity:.07}).addTo(vehicleRangeMap);
       var safe=L.circle([lat,lng],{radius:roundTrip,color:"#65a30d",weight:2,fillColor:"#a3e635",fillOpacity:.12}).addTo(vehicleRangeMap);
       vehicleRangeLayers=[origin,reach,safe];
       vehicleRangeMap.fitBounds(reach.getBounds(),{padding:[24,24]});
-      var result=document.getElementById("range-trip-result");
-      if(result){result.className="range-trip-result";result.innerHTML='<i class="fa-solid fa-location-arrow" aria-hidden="true"></i><div><strong>'+bi({ar:"اختر وجهة على الخريطة",en:"Choose a destination on the map"})+'</strong><p>'+bi({ar:"سنحسب المسافة ونسبة البطارية المتوقعة وإمكانية العودة.",en:"We will calculate distance, expected battery remaining and return feasibility."})+'</p></div><b><bdi>— km</bdi></b>'}
+      syncRangeOutput(plan);resetRangeTripResult();
+    }
+    function updateRangePlannerWidget(id){
+      var v=vehicles.find(function(item){return item.id===id})||vehicles[0],r=state.rangePlanner,plan=vehicleUsableRange(v);
+      var set=function(id,value){var node=document.getElementById(id);if(node){node.innerHTML="<bdi>"+value+"</bdi>"}};
+      set("range-charge-output",r.charge+"%");set("range-reserve-output",r.reserve+"%");set("range-temp-output",r.temp+"°C");set("range-plan-result",Math.round(plan.km)+" km");
+      persist();
+      if(vehicleRangeMap&&vehicleRangeContext){drawVehicleRange(v,vehicleRangeContext.lat,vehicleRangeContext.lng,vehicleRangeContext.source)}
     }
     function geoDistanceKm(lat1,lng1,lat2,lng2){
       var rad=Math.PI/180,dLat=(lat2-lat1)*rad,dLng=(lng2-lng1)*rad;
       var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*rad)*Math.cos(lat2*rad)*Math.sin(dLng/2)*Math.sin(dLng/2);
       return 6371*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
     }
+    function renderRangeTrip(lat,lng,distance,geometry,isRoad,requestId){
+      if(!vehicleRangeMap||!vehicleRangeContext||requestId!==vehicleRouteRequest){return}
+      var ctx=vehicleRangeContext,v=ctx.vehicle,plan=vehicleUsableRange(v),usable=plan.km;
+      var remaining=Math.max(0,Math.round((plan.charge-plan.reserve)*(1-distance/usable)+plan.reserve)),reachable=distance<=usable,roundTrip=distance*2<=usable*.92;
+      var color=reachable?"#0891b2":"#dc2626";
+      if(vehicleRangeMap.kind==="canvas"){
+        vehicleRangeMap.model.plan=plan;vehicleRangeMap.model.destination={lat:lat,lng:lng,color:color};vehicleRangeMap.model.geometry=geometry;renderRangeCanvas(vehicleRangeMap);
+      }else{
+        vehicleRangeLayers.slice(3).forEach(function(layer){try{vehicleRangeMap.removeLayer(layer)}catch(e){}});vehicleRangeLayers=vehicleRangeLayers.slice(0,3);
+        var line=geometry?L.geoJSON(geometry,{style:{color:color,weight:5,opacity:.9}}).addTo(vehicleRangeMap):L.polyline([[ctx.lat,ctx.lng],[lat,lng]],{color:color,weight:4,dashArray:"8 8"}).addTo(vehicleRangeMap);
+        var destination=L.circleMarker([lat,lng],{radius:9,color:"#fff",weight:3,fillColor:color,fillOpacity:1}).addTo(vehicleRangeMap).bindTooltip(bi({ar:"الوجهة المختارة",en:"Selected destination"}),{direction:"top"}).openTooltip();vehicleRangeLayers.push(line,destination);try{vehicleRangeMap.fitBounds(line.getBounds(),{padding:[42,42],maxZoom:10})}catch(e){}
+      }
+      var result=document.getElementById("range-trip-result");
+      if(result){result.className="range-trip-result "+(reachable?"reachable":"unreachable");result.innerHTML='<i class="fa-solid '+(reachable?'fa-circle-check':'fa-triangle-exclamation')+'" aria-hidden="true"></i><div><strong>'+(reachable?bi({ar:"يمكن الوصول ضمن الإعدادات الحالية",en:"Reachable with the current settings"}):bi({ar:"خارج المدى القابل للاستخدام",en:"Outside usable range"}))+'</strong><p><span class="badge '+(isRoad?'badge-volt':'badge-slate')+'">'+(isRoad?bi({ar:"مسافة طريق",en:"Road route"}):bi({ar:"تقدير جغرافي",en:"Geographic fallback"}))+'</span> '+bi({ar:"البطارية عند الوصول: ",en:"Battery on arrival: "})+'<bdi>'+remaining+'%</bdi> · '+(roundTrip?bi({ar:"يمكن الذهاب والعودة",en:"round trip is possible"}):bi({ar:"خطط لشحن العودة",en:"plan a return charge"}))+'</p></div><b><bdi>'+distance.toFixed(1)+' km</bdi></b>'}
+    }
     function evaluateRangeDestination(lat,lng){
       if(!vehicleRangeMap||!vehicleRangeContext){return}
-      vehicleRangeLayers.slice(3).forEach(function(layer){try{vehicleRangeMap.removeLayer(layer)}catch(e){}});
-      vehicleRangeLayers=vehicleRangeLayers.slice(0,3);
-      var ctx=vehicleRangeContext,v=ctx.vehicle,distance=geoDistanceKm(ctx.lat,ctx.lng,lat,lng),usable=Math.max(20,Number(v.range.ksa));
-      var remaining=Math.max(0,Math.round(100-(distance/usable)*100)),reachable=distance<=usable,roundTrip=distance*2<=usable*.92;
-      var line=L.polyline([[ctx.lat,ctx.lng],[lat,lng]],{color:reachable?"#0891b2":"#dc2626",weight:4,dashArray:"8 8"}).addTo(vehicleRangeMap);
-      var destination=L.marker([lat,lng]).addTo(vehicleRangeMap).bindTooltip(bi({ar:"الوجهة المختارة",en:"Selected destination"}),{direction:"top"}).openTooltip();
-      vehicleRangeLayers.push(line,destination);
-      var result=document.getElementById("range-trip-result");
-      if(result){result.className="range-trip-result "+(reachable?"reachable":"unreachable");result.innerHTML='<i class="fa-solid '+(reachable?'fa-circle-check':'fa-triangle-exclamation')+'" aria-hidden="true"></i><div><strong>'+(reachable?bi({ar:"يمكن الوصول بشحنة واحدة",en:"Reachable on one charge"}):bi({ar:"خارج نطاق الشحنة الواحدة",en:"Outside one-charge range"}))+'</strong><p>'+bi({ar:"البطارية المتوقعة عند الوصول: ",en:"Expected battery on arrival: "})+'<bdi>'+remaining+'%</bdi> · '+(roundTrip?bi({ar:"العودة ممكنة ضمن الهامش",en:"round trip fits the safety margin"}):bi({ar:"ستحتاج شحنًا للعودة",en:"charging is recommended for the return"}))+'</p></div><b><bdi>'+distance.toFixed(1)+' km</bdi></b>'}
+      var ctx=vehicleRangeContext,linear=geoDistanceKm(ctx.lat,ctx.lng,lat,lng),requestId=++vehicleRouteRequest,result=document.getElementById("range-trip-result");
+      if(result){result.className="range-trip-result";result.innerHTML='<i class="fa-solid fa-route" aria-hidden="true"></i><div><strong>'+bi({ar:"جارٍ حساب مسار الطريق…",en:"Calculating road route…"})+'</strong><p>'+bi({ar:"إذا تعذر مزود المسارات سنستخدم التقدير الجغرافي تلقائيًا.",en:"A geographic fallback will be used automatically if routing is unavailable."})+'</p></div><b><bdi>…</bdi></b>'}
+      if(typeof fetch!=="function"){renderRangeTrip(lat,lng,linear,null,false,requestId);return}
+      var url="https://router.project-osrm.org/route/v1/driving/"+ctx.lng+","+ctx.lat+";"+lng+","+lat+"?overview=full&geometries=geojson";
+      var controller=typeof AbortController!=="undefined"?new AbortController():null;
+      var timeout=setTimeout(function(){if(controller){controller.abort()}},7000);
+      fetch(url,controller?{signal:controller.signal}:{}).then(function(response){if(!response.ok){throw new Error("route")};return response.json()}).then(function(data){
+        clearTimeout(timeout);var route=data&&data.routes&&data.routes[0];if(!route){throw new Error("route")};renderRangeTrip(lat,lng,route.distance/1000,route.geometry,true,requestId);
+      }).catch(function(){clearTimeout(timeout);renderRangeTrip(lat,lng,linear,null,false,requestId)});
     }
     function initVehicleRangeMap(id){
       var container=document.getElementById("vehicle-range-map"),v=vehicles.find(function(item){return item.id===id})||vehicles[0];
       if(!container){return}
-      if(!window.L){container.innerHTML='<div class="map-fallback"><p>'+bi({ar:"تعذر تحميل الخريطة، لكن تقدير المدى ما زال ظاهرًا أسفلها.",en:"The map could not load, but the range estimate remains visible below."})+'</p></div>';return}
+      var base=batteryCityProfile(state.battery.city),isLocal=location.protocol==="file:";
+      if(isLocal||!window.L){initRangeCanvasMap(container,v,base);return}
       try{
-        var base=batteryCityProfile(state.battery.city);
         vehicleRangeMap=L.map(container,{zoomControl:true,scrollWheelZoom:false});
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"&copy; OpenStreetMap contributors"}).addTo(vehicleRangeMap);
         vehicleRangeMap.on("click",function(event){evaluateRangeDestination(event.latlng.lat,event.latlng.lng)});
         drawVehicleRange(v,base.lat,base.lng,bi(base.label));
-      }catch(error){container.innerHTML='<div class="map-fallback"><p>'+bi({ar:"الخريطة غير متاحة الآن.",en:"The map is unavailable right now."})+'</p></div>'}
+      }catch(error){try{if(vehicleRangeMap&&vehicleRangeMap.remove){vehicleRangeMap.remove()}}catch(e){}vehicleRangeMap=null;initRangeCanvasMap(container,v,base)}
     }
     function locateVehicleRange(id){
       var v=vehicles.find(function(item){return item.id===id})||vehicles[0],status=document.getElementById("range-location-status");
@@ -1459,11 +1555,11 @@
       if(status){status.textContent=bi({ar:"بانتظار إذن الموقع…",en:"Waiting for location permission…"})}
       navigator.geolocation.getCurrentPosition(function(position){
         drawVehicleRange(v,position.coords.latitude,position.coords.longitude,bi({ar:"موقعك الحالي",en:"Your current location"}));
-        if(status){status.textContent=bi({ar:"تم تحديث الخريطة من موقعك الحالي. الدوائر تقديرية ولا تراعي شكل الطرق أو الارتفاعات.",en:"Map updated from your current location. Circles are illustrative and do not account for roads or elevation."})}
+        if(status){status.textContent=bi({ar:"تم تثبيت نقطة البداية من موقعك. اضغط على الخريطة لاختيار وجهة وحساب مسار الطريق.",en:"Your location is now the origin. Tap the map to choose a destination and calculate the road route."})}
       },function(){
         if(status){status.textContent=bi({ar:"تعذر الوصول إلى موقعك. أبقينا نقطة الانطلاق على المدينة المختارة.",en:"Your location was unavailable, so the selected city remains the starting point."})}
         showToast(bi({ar:"لم نتمكن من استخدام موقعك",en:"We could not use your location"}));
-      },{enableHighAccuracy:false,timeout:10000,maximumAge:300000});
+      },{enableHighAccuracy:true,timeout:12000,maximumAge:120000});
     }
     function initMap(){
       var container=document.getElementById("charging-map");
@@ -1596,6 +1692,10 @@
         state.battery[target.dataset.batteryModel]=Number(target.value);
         state.battery.usage="custom";
         updateBatteryWidget(target.dataset.vehicle);
+      }else if(target.matches("[data-range-plan]")){
+        var rangeKey=target.dataset.rangePlan;
+        state.rangePlanner[rangeKey]=rangeKey==="mode"?target.value:Number(target.value);
+        updateRangePlannerWidget(target.dataset.vehicle);
       }
     });
     document.addEventListener("input",function(event){
@@ -1608,6 +1708,10 @@
         state.battery[target.dataset.batteryModel]=Number(target.value);
         state.battery.usage="custom";
         updateBatteryWidget(target.dataset.vehicle);
+      }else if(target.matches("[data-range-plan]")){
+        var rangeKey=target.dataset.rangePlan;
+        state.rangePlanner[rangeKey]=rangeKey==="mode"?target.value:Number(target.value);
+        updateRangePlannerWidget(target.dataset.vehicle);
       }
     });
     document.addEventListener("submit",function(event){

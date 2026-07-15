@@ -33,7 +33,7 @@ const context = vm.createContext({
     getItem: (key) => store.has(key) ? store.get(key) : null,
     setItem: (key, value) => store.set(key, value)
   },
-  location: { hash: "#/home", href: "http://127.0.0.1/evhub-preview.html#/home" },
+  location: { hash: "#/home", href: "http://127.0.0.1/evhub-preview.html#/home", protocol: "http:" },
   navigator: {},
   matchMedia: () => ({ matches: false }),
   setTimeout,
@@ -90,7 +90,7 @@ if (!englishSmart.includes("Everything you need before and after buying") || !en
 }
 results.englishSmart = englishSmart.length;
 const englishDetail = new vm.Script("detailView('tesla-model-y')").runInContext(context);
-if (!englishDetail.includes("Battery life lab") || !englishDetail.includes("110 km daily") || !englishDetail.includes("range-trip-result") || !englishDetail.includes("vehicle-range-map") || englishDetail.includes("undefined")) {
+if (!englishDetail.includes("Battery life lab") || !englishDetail.includes("110 km daily") || !englishDetail.includes("range-trip-result") || !englishDetail.includes("vehicle-range-map") || !englishDetail.includes('data-range-plan="charge"') || englishDetail.includes("undefined")) {
   throw new Error("English vehicle prediction tools failed");
 }
 results.englishDetail = englishDetail.length;
@@ -103,6 +103,26 @@ if (!(riyadhJeddahKm > 700 && riyadhJeddahKm < 1000)) {
   throw new Error("Map distance calculation is outside the expected range");
 }
 results.mapDistanceCheckKm = Math.round(riyadhJeddahKm);
+if (!html.includes('location.protocol==="file:"') || !html.includes("initRangeCanvasMap(container,v,base)")) {
+  throw new Error("Local-file map fallback is not wired into vehicle pages");
+}
+const canvasProjection = new vm.Script("var m={bounds:{minLat:16,maxLat:33.5,minLng:34.5,maxLng:56},width:900,height:430};var p=rangeCanvasProject(m,24.7136,46.6753);rangeCanvasCoordinate(m,p.x,p.y)").runInContext(context);
+if (Math.abs(canvasProjection.lat - 24.7136) > 0.001 || Math.abs(canvasProjection.lng - 46.6753) > 0.001) {
+  throw new Error("Local range-map coordinate projection is inconsistent");
+}
+results.localMapProjection = "passed";
+
+new vm.Script("state.rangePlanner={charge:100,reserve:5,temp:25,mode:'city'}").runInContext(context);
+const bestRange = new vm.Script("vehicleUsableRange(vehicles[0]).km").runInContext(context);
+new vm.Script("state.rangePlanner={charge:50,reserve:20,temp:50,mode:'highway'}").runInContext(context);
+const constrainedRange = new vm.Script("vehicleUsableRange(vehicles[0]).km").runInContext(context);
+if (!(bestRange > constrainedRange && constrainedRange > 0)) {
+  throw new Error("Vehicle range planner does not respond correctly to charge, reserve, temperature and driving type");
+}
+results.rangePlannerScenarios = {
+  best: Math.round(bestRange),
+  constrained: Math.round(constrainedRange)
+};
 
 new vm.Script("state.battery={city:'Jeddah',usage:'heavy',dailyKm:110,daysWeek:7,dcShare:55,sunExposure:2}").runInContext(context);
 const heavyHot = new vm.Script("batteryPrediction(vehicles[0]).y5").runInContext(context);
