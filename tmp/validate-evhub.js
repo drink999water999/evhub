@@ -1,13 +1,17 @@
 const fs = require("fs");
 const vm = require("vm");
 
-const html = fs.readFileSync("evhub-preview.html", "utf8");
+const html = fs.readFileSync("index.html", "utf8");
 const inlineScripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
   .map((match) => match[1])
   .filter((code) => code.trim());
 
 if (inlineScripts.length !== 1) {
   throw new Error("Expected one inline application script, found " + inlineScripts.length);
+}
+
+if (html.includes('href="#/smart"') || html.includes('data-route="smart"')) {
+  throw new Error("Legacy Smart EV navigation is still visible");
 }
 
 new vm.Script(inlineScripts[0], { filename: "evhub-inline.js" });
@@ -45,6 +49,8 @@ const expressions = {
   marketplace: "marketplaceView()",
   detail: "detailView('ioniq-5-used')",
   tools: "toolsView()",
+  servicesHub: "servicesHubView()",
+  account: "accountView()",
   charging: "chargingView()",
   services: "servicesView()",
   seller: "workspaceView('seller')",
@@ -67,7 +73,7 @@ for (const [name, expression] of Object.entries(expressions)) {
 
 new vm.Script("state.compare=new Set(['lucid-air','tesla-model-y','byd-sealion-7'])").runInContext(context);
 const compare = new vm.Script("compareView()").runInContext(context);
-if (!compare.includes("<table") || !compare.includes("Lucid")) {
+if (!compare.includes("<table") || !compare.includes("compare-mobile-list") || !compare.includes("Lucid")) {
   throw new Error("Comparison view did not render selected vehicles");
 }
 results.compare = compare.length;
@@ -78,6 +84,34 @@ if (!englishHome.includes("Every electric journey") || englishHome.includes("und
   throw new Error("English home view failed");
 }
 results.englishHome = englishHome.length;
+const englishSmart = new vm.Script("servicesHubView()").runInContext(context);
+if (!englishSmart.includes("Everything you need before and after buying") || !englishSmart.includes("Peer-to-peer EV charging") || englishSmart.includes("undefined")) {
+  throw new Error("English services hub failed");
+}
+results.englishSmart = englishSmart.length;
+const englishDetail = new vm.Script("detailView('tesla-model-y')").runInContext(context);
+if (!englishDetail.includes("Battery life lab") || !englishDetail.includes("110 km daily") || !englishDetail.includes("range-trip-result") || !englishDetail.includes("vehicle-range-map") || englishDetail.includes("undefined")) {
+  throw new Error("English vehicle prediction tools failed");
+}
+results.englishDetail = englishDetail.length;
+const clickableCard = new vm.Script("vehicleCard(vehicles[0])").runInContext(context);
+if (!clickableCard.includes('role="link"') || !clickableCard.includes('data-action="detail"')) {
+  throw new Error("Vehicle cards are not fully clickable");
+}
+const riyadhJeddahKm = new vm.Script("geoDistanceKm(24.7136,46.6753,21.5433,39.1728)").runInContext(context);
+if (!(riyadhJeddahKm > 700 && riyadhJeddahKm < 1000)) {
+  throw new Error("Map distance calculation is outside the expected range");
+}
+results.mapDistanceCheckKm = Math.round(riyadhJeddahKm);
+
+new vm.Script("state.battery={city:'Jeddah',usage:'heavy',dailyKm:110,daysWeek:7,dcShare:55,sunExposure:2}").runInContext(context);
+const heavyHot = new vm.Script("batteryPrediction(vehicles[0]).y5").runInContext(context);
+new vm.Script("state.battery={city:'Abha',usage:'light',dailyKm:15,daysWeek:2,dcShare:10,sunExposure:0}").runInContext(context);
+const lightCool = new vm.Script("batteryPrediction(vehicles[0]).y5").runInContext(context);
+if (!(heavyHot < lightCool)) {
+  throw new Error("Battery predictor does not respond correctly to climate and usage");
+}
+results.predictorScenarios = { heavyHot, lightCool };
 
 const localAssets = [...html.matchAll(/(?:src|href)="(Media\/[^"#?]+)"/g)].map((match) => match[1]);
 for (const asset of new Set(localAssets)) {

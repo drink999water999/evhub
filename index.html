@@ -35,7 +35,9 @@
     a{color:inherit;text-decoration:none}
     img{display:block;max-width:100%}
     bdi,.ltr{direction:ltr;unicode-bidi:isolate}
-    button{border:0;min-inline-size:44px;min-block-size:44px}
+    button{border:0;min-inline-size:44px;min-block-size:44px;max-inline-size:100%}
+    button,select,input,textarea{max-width:100%}
+    main *{min-width:0}
     :focus-visible{outline:3px solid var(--brand-400);outline-offset:3px;border-radius:8px}
     ::selection{background:var(--brand-100);color:var(--ink-900)}
     ::-webkit-scrollbar{width:9px;height:9px}
@@ -59,7 +61,7 @@
     .icon-btn:hover,.lang-btn:hover{border-color:var(--brand-400);background:var(--brand-50)}
     .lang-btn{padding-inline:12px;font-size:12px;font-weight:800}
     .count-badge{position:absolute;inset-block-start:-5px;inset-inline-end:-5px;min-width:20px;height:20px;padding-inline:5px;border:2px solid white;border-radius:999px;background:var(--volt-500);color:var(--ink-900);font:800 10px/16px "Manrope",sans-serif;text-align:center}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:10px 18px;border-radius:13px;cursor:pointer;font-weight:800;font-size:14px;transition:transform .22s var(--ease),box-shadow .22s var(--ease),background .22s var(--ease),border-color .22s var(--ease)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:10px 18px;border-radius:13px;cursor:pointer;font-weight:800;font-size:14px;line-height:1.35;text-align:center;white-space:normal;overflow-wrap:anywhere;transition:transform .22s var(--ease),box-shadow .22s var(--ease),background .22s var(--ease),border-color .22s var(--ease)}
     .btn:hover{transform:translateY(-2px)}
     .btn-primary{background:linear-gradient(135deg,var(--brand-500),var(--brand-700));color:white;box-shadow:0 12px 30px rgba(6,182,212,.25)}
     .btn-primary:hover{box-shadow:0 16px 38px rgba(6,182,212,.34)}
@@ -90,7 +92,7 @@
     .muted{color:var(--slate-500)}
     .tiny{font-size:11px}
     .tabular{font-variant-numeric:tabular-nums}
-    .badge{display:inline-flex;align-items:center;gap:6px;min-height:27px;padding:4px 9px;border-radius:999px;font-size:10px;font-weight:800;white-space:nowrap}
+    .badge{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:27px;max-width:100%;padding:4px 9px;border-radius:999px;font-size:10px;font-weight:800;line-height:1.35;text-align:center;white-space:normal;overflow-wrap:anywhere}
     .badge-brand{background:var(--brand-50);color:var(--brand-700);border:1px solid var(--brand-100)}
     .badge-volt{background:rgba(163,230,53,.17);color:#4d7c0f;border:1px solid rgba(132,204,22,.25)}
     .badge-dark{background:rgba(11,18,32,.82);color:white;border:1px solid rgba(255,255,255,.13)}
@@ -113,7 +115,7 @@
     .hero-search input{min-width:0;flex:1;border:0;outline:0;padding:10px 12px;background:transparent;color:var(--ink-900)}
     .hero-search .btn{min-height:44px}
     .hero-chips{display:flex;flex-wrap:wrap;gap:7px;margin-block-start:14px}
-    .hero-chip{min-height:44px;padding:7px 12px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(11,18,32,.48);color:white;font-size:11px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)}
+    .hero-chip{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:7px 12px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(11,18,32,.48);color:white;font-size:11px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)}
     .hero-chip:hover{border-color:var(--brand-400);background:rgba(6,182,212,.16)}
     .hero-float{position:absolute;z-index:3;inset-block-end:28px;inset-inline-end:28px;width:330px;padding:16px;border:1px solid rgba(255,255,255,.14);border-radius:20px;background:rgba(11,18,32,.72);color:white;backdrop-filter:blur(16px)}
     .snapshot-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-block-start:12px}
@@ -139,7 +141,7 @@
     .brand-tile img{width:70px;height:30px;object-fit:contain}
     .brand-tile span{font:800 10px/1 "Manrope",sans-serif;color:var(--slate-500)}
     .vehicle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .vehicle-card{overflow:hidden;position:relative;background:white;border:1px solid var(--slate-200);border-radius:23px;box-shadow:var(--shadow-sm);transition:.28s var(--ease)}
+    .vehicle-card{overflow:hidden;position:relative;background:white;border:1px solid var(--slate-200);border-radius:23px;box-shadow:var(--shadow-sm);cursor:pointer;transition:.28s var(--ease)}
     .vehicle-card:hover{transform:translateY(-5px);box-shadow:0 25px 58px rgba(11,18,32,.14)}
     .vehicle-media{height:220px;position:relative;overflow:hidden;background:var(--ink-900)}
     .vehicle-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
@@ -160,7 +162,8 @@
     .mini-spec b{display:block;font:800 12px/1.2 "Manrope",sans-serif}
     .mini-spec span{display:block;margin-block-start:4px;color:var(--slate-500);font-size:8px}
     .price-row{display:flex;align-items:end;justify-content:space-between;gap:12px;padding-block-start:14px;border-block-start:1px solid var(--slate-100)}
-    .price strong{font:800 21px/1 "Manrope",sans-serif}
+    .price{min-width:0;overflow-wrap:anywhere}
+    .price strong{display:flex;align-items:center;flex-wrap:wrap;gap:3px;font:800 21px/1.2 "Manrope",sans-serif}
     .price small{display:block;margin-block-start:5px;color:var(--slate-500);font-size:9px}
     .riyal-symbol{display:inline-block;width:15px;height:15px;object-fit:contain;vertical-align:-2px;margin-inline-start:3px}
     .market-layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:22px;margin-block-start:26px}
@@ -245,6 +248,20 @@
     .compare-head img{width:100%;height:130px;object-fit:cover;border-radius:13px;margin-block-end:10px}
     .compare-head strong{display:block}
     .compare-head button{margin-block-start:7px}
+    .compare-mobile{display:none}
+    .compare-mobile-vehicles{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(178px,78%);gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 12px;margin-block-end:14px}
+    .compare-mobile-vehicle{position:relative;overflow:hidden;scroll-snap-align:start;border:1px solid var(--slate-200);border-radius:18px;background:white;box-shadow:var(--shadow-sm)}
+    .compare-mobile-vehicle img{width:100%;height:112px;object-fit:cover}
+    .compare-mobile-vehicle>div{padding:12px}
+    .compare-mobile-vehicle strong{display:block;font-size:12px;line-height:1.4}
+    .compare-mobile-vehicle .card-action{position:absolute;inset-block-start:8px;inset-inline-end:8px;background:#fff;color:var(--danger)}
+    .compare-mobile-list{display:grid;gap:10px}
+    .compare-mobile-row{padding:14px;border:1px solid var(--slate-200);border-radius:16px;background:white;box-shadow:var(--shadow-sm)}
+    .compare-mobile-row>strong{display:block;margin-block-end:10px;color:var(--slate-500);font-size:10px}
+    .compare-mobile-values{display:grid;gap:7px}
+    .compare-mobile-value{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;padding:9px 10px;border-radius:11px;background:var(--slate-50)}
+    .compare-mobile-value span{font-size:10px;font-weight:700;overflow-wrap:anywhere}
+    .compare-mobile-value bdi{max-width:54vw;color:var(--ink-900);font:800 11px/1.4 "Manrope","Noto Sans Arabic",sans-serif;text-align:end;overflow-wrap:anywhere}
     .tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-block-start:28px}
     .tool-card{padding:26px}
     .tool-card h2{margin:0 0 6px;font-size:23px}
@@ -301,7 +318,7 @@
     .dashboard-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
     .metric{padding:18px}
     .metric span{display:block;color:var(--slate-500);font-size:10px}
-    .metric strong{display:block;margin-block-start:8px;font:800 27px/1 "Manrope",sans-serif}
+    .metric strong{display:block;margin-block-start:8px;font:800 27px/1.15 "Manrope",sans-serif;overflow-wrap:anywhere}
     .metric small{display:block;margin-block-start:7px;color:#65a30d;font-size:9px}
     .workspace-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;margin-block-start:18px}
     .workspace-grid>*{min-width:0}
@@ -357,13 +374,105 @@
     .source-item a{color:var(--brand-700);font-weight:800}
     .source-item p{margin:5px 0 0;color:var(--slate-500);font-size:10px}
     .legal-note{padding:14px;border-radius:13px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:10px}
+    .smart-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(330px,.9fr);gap:22px;margin-block-start:28px;padding:34px;background:var(--ink-900);color:white}
+    .smart-hero h2{margin:12px 0 10px;font-size:clamp(30px,4vw,52px);line-height:1.08}
+    .smart-hero p{margin:0;color:var(--slate-300)}
+    .smart-hero-panel{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:center}
+    .smart-kpi{padding:17px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.06)}
+    .smart-kpi b{display:block;color:var(--volt-400);font:800 24px/1.2 "Manrope",sans-serif}
+    .smart-kpi span{display:block;margin-block-start:5px;color:var(--slate-300);font-size:9px}
+    .smart-live-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .smart-demo{padding:24px}
+    .smart-demo h2{margin:10px 0 6px;font-size:23px}
+    .compat-result{display:grid;gap:8px;margin-block-start:16px}
+    .compat-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px;border:1px solid var(--brand-100);border-radius:14px;background:var(--brand-50)}
+    .compat-item strong{display:block;font-size:11px}
+    .compat-item span{display:block;color:var(--slate-500);font-size:9px}
+    .readiness-score{display:grid;grid-template-columns:104px 1fr;gap:18px;align-items:center;margin-block-start:16px}
+    .score-ring{display:grid;place-items:center;width:104px;height:104px;border-radius:50%;background:conic-gradient(var(--volt-500) calc(var(--score)*10%),var(--slate-200) 0);position:relative}
+    .score-ring:after{content:"";position:absolute;inset:10px;border-radius:50%;background:white}
+    .score-ring b{position:relative;z-index:1;font:800 23px/1 "Manrope",sans-serif}
+    .city-pills,.sim-tabs{display:flex;gap:7px;overflow-x:auto;padding-block:4px}
+    .city-pill,.sim-tab{flex:0 0 auto;min-height:42px;padding:8px 12px;border:1px solid var(--slate-200);border-radius:999px;background:white;color:var(--slate-600);font-size:10px;font-weight:800;cursor:pointer}
+    .city-pill.active,.sim-tab.active{border-color:var(--ink-900);background:var(--ink-900);color:white}
+    .simulator{margin-block-start:16px;padding:14px;border-radius:20px;background:var(--ink-900);box-shadow:var(--shadow-lg)}
+    .sim-screen{min-height:226px;padding:22px;border-radius:14px;background:linear-gradient(145deg,#152039,#0b1220);color:white}
+    .sim-screen h3{margin:12px 0 4px;font-size:24px}
+    .sim-value{margin-block:20px;color:var(--volt-400);font:800 clamp(34px,6vw,58px)/1 "Manrope",sans-serif;overflow-wrap:anywhere}
+    .feature-roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .feature-card{display:flex;flex-direction:column;min-height:250px;padding:20px}
+    .feature-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .feature-icon{display:grid;place-items:center;width:44px;height:44px;flex:0 0 44px;border-radius:13px;background:var(--brand-50);color:var(--brand-700)}
+    .feature-card h3{margin:18px 0 7px;font-size:17px}
+    .feature-card p{margin:0;color:var(--slate-500);font-size:11px}
+    .feature-needs{margin-block-start:auto;padding-block-start:16px;color:var(--slate-500);font-size:9px;font-weight:700}
+    .feature-needs i{color:var(--brand-600)}
+    .battery-predictor-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px;align-items:start}
+    .usage-options{display:grid;gap:8px}
+    .usage-option{display:flex;align-items:center;gap:11px;width:100%;padding:12px;border:1px solid var(--slate-200);border-radius:13px;background:white;color:var(--slate-600);text-align:start;cursor:pointer}
+    .usage-option i{display:grid;place-items:center;width:36px;height:36px;flex:0 0 36px;border-radius:11px;background:var(--slate-100);color:var(--brand-700)}
+    .usage-option strong{display:block;color:var(--ink-900);font-size:11px}
+    .usage-option span{display:block;font-size:9px}
+    .usage-option.active{border-color:var(--brand-500);background:var(--brand-50);box-shadow:0 0 0 3px rgba(6,182,212,.08)}
+    .usage-option.active i{background:var(--ink-900);color:var(--volt-400)}
+    .prediction-panel{padding:20px;border-radius:18px;background:var(--ink-900);color:white}
+    .prediction-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-block:16px}
+    .prediction-stat{padding:12px;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:rgba(255,255,255,.05);text-align:center}
+    .prediction-stat b{display:block;color:var(--volt-400);font:800 clamp(20px,3vw,30px)/1.1 "Manrope",sans-serif}
+    .prediction-stat span{display:block;margin-block-start:5px;color:var(--slate-300);font-size:8px}
+    .degradation-bars{display:grid;gap:9px}
+    .degradation-point{display:grid;grid-template-columns:50px 1fr 45px;gap:8px;align-items:center;color:var(--slate-300);font-size:9px}
+    .degradation-point .bar-track{background:rgba(255,255,255,.12)}
+    .degradation-point bdi{color:white;text-align:end;font-weight:800}
+    .vehicle-range-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-block-end:15px}
+    .vehicle-range-head h2{margin-block-end:6px}
+    #vehicle-range-map{height:430px;overflow:hidden;border-radius:18px;background:var(--slate-200)}
+    .range-map-legend{display:flex;flex-wrap:wrap;gap:8px;margin-block-start:12px}
+    .legend-item{display:inline-flex;align-items:center;gap:7px;color:var(--slate-600);font-size:9px;font-weight:700}
+    .legend-dot{width:11px;height:11px;border-radius:50%;background:var(--brand-500)}
+    .legend-dot.safe{background:var(--volt-500)}
+    .range-trip-result{display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:12px;margin-block-start:12px;padding:14px;border:1px solid var(--slate-200);border-radius:15px;background:var(--slate-50)}
+    .range-trip-result>i{display:grid;place-items:center;width:44px;height:44px;border-radius:13px;background:white;color:var(--brand-700);font-size:18px;box-shadow:var(--shadow-sm)}
+    .range-trip-result strong{display:block;font-size:12px}
+    .range-trip-result p{margin:3px 0 0;color:var(--slate-500);font-size:9px}
+    .range-trip-result b{font:800 20px/1 "Manrope",sans-serif;color:var(--brand-700)}
+    .range-trip-result.reachable{border-color:rgba(132,204,22,.4);background:rgba(163,230,53,.09)}
+    .range-trip-result.reachable>i{color:#4d7c0f}
+    .range-trip-result.unreachable{border-color:#fecaca;background:#fef2f2}
+    .range-trip-result.unreachable>i{color:var(--danger)}
+    .model-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-block-start:15px;padding:14px;border:1px solid var(--slate-200);border-radius:16px;background:var(--slate-50)}
+    .model-controls .field{margin:0}
+    .prediction-title{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--slate-300);font-size:10px}
+    .prediction-title strong{color:var(--volt-400);font:800 11px/1 "Manrope",sans-serif}
+    .prediction-insight{display:flex;align-items:flex-start;gap:10px;margin-block-start:15px;padding:12px;border-radius:13px;background:rgba(6,182,212,.12);color:var(--brand-100)}
+    .prediction-insight i{margin-block-start:3px;color:var(--volt-400)}
+    .prediction-insight p{margin:0;font-size:10px}
+    .detail-quicknav{position:sticky;z-index:8;inset-block-start:calc(var(--header-h) + 8px);display:flex;gap:7px;overflow-x:auto;margin-block:16px;padding:7px;border:1px solid var(--slate-200);border-radius:16px;background:rgba(255,255,255,.93);box-shadow:var(--shadow-sm);backdrop-filter:blur(14px)}
+    .detail-quicknav a,.detail-quicknav button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:8px 12px;border-radius:11px;background:transparent;color:var(--slate-600);font-size:10px;font-weight:800;white-space:nowrap;cursor:pointer}
+    .detail-quicknav a:hover,.detail-quicknav button:hover{background:var(--ink-900);color:white}
+    .decision-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-block-start:14px}
+    .decision-chip{padding:14px;border:1px solid var(--slate-200);border-radius:15px;background:white;box-shadow:var(--shadow-sm)}
+    .decision-chip i{color:var(--brand-600)}
+    .decision-chip b{display:block;margin-block-start:8px;font:800 17px/1.1 "Manrope",sans-serif}
+    .decision-chip span{display:block;margin-block-start:4px;color:var(--slate-500);font-size:8px}
+    .decision-card{scroll-margin-top:calc(var(--header-h) + 80px)}
+    .account-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;margin-block-start:28px;padding:30px}
+    .account-identity{display:flex;align-items:center;gap:16px}
+    .account-avatar{display:grid;place-items:center;width:68px;height:68px;flex:0 0 68px;border-radius:22px;background:linear-gradient(135deg,var(--brand-500),var(--brand-700));color:white;font-size:25px}
+    .account-identity h2{margin:0 0 4px;font-size:25px}
+    .account-identity p{margin:0;color:var(--slate-500);font-size:11px}
+    .account-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-block-start:18px}
+    .account-action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .account-action{display:flex;align-items:center;gap:11px;min-height:82px;padding:14px;border:1px solid var(--slate-200);border-radius:15px;background:white}
+    .account-action i{display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;border-radius:12px;background:var(--brand-50);color:var(--brand-700)}
+    .account-action strong{display:block;font-size:11px}
+    .account-action span{display:block;color:var(--slate-500);font-size:9px}
     @media(max-width:1300px){
-      .desktop-nav .nav-link:nth-last-child(-n+2){display:none}
       .header-actions .consult-btn span{display:none}
       .header-actions .consult-btn{padding-inline:14px}
     }
     @media(max-width:1100px){
-      .desktop-nav .nav-link:nth-last-child(-n+2){display:none}
+      .nav-link{padding-inline:9px;font-size:12px}
       .journey-grid{grid-template-columns:repeat(2,1fr)}
       .brand-grid{grid-template-columns:repeat(4,1fr)}
       .vehicle-grid{grid-template-columns:repeat(2,1fr)}
@@ -373,6 +482,7 @@
       .station-side{min-height:auto;max-height:none}
       #charging-map{height:500px}
       .dashboard-grid{grid-template-columns:repeat(2,1fr)}
+      .feature-roadmap{grid-template-columns:repeat(2,1fr)}
     }
     @media(max-width:820px){
       :root{--header-h:68px}
@@ -396,10 +506,15 @@
       .gallery-thumbs{flex-direction:row;overflow:auto}
       .thumb{width:95px;flex:0 0 95px}
       .spec-grid{grid-template-columns:repeat(2,1fr)}
+      .desktop-compare{display:none}
+      .compare-mobile{display:block}
       .tools-grid,.service-hero,.image-split,.workspace-grid{grid-template-columns:1fr}
       .service-hero img,.image-split img{height:330px}
       .service-grid{grid-template-columns:repeat(2,1fr)}
       .footer-grid{grid-template-columns:1fr 1fr}
+      .smart-hero,.smart-live-grid{grid-template-columns:1fr}
+      .battery-predictor-grid,.account-grid{grid-template-columns:1fr}
+      .decision-strip{grid-template-columns:1fr 1fr}
       .mobile-nav{position:fixed;z-index:1100;inset-block-end:0;inset-inline:0;display:grid;grid-template-columns:repeat(5,1fr);padding:7px 8px calc(7px + env(safe-area-inset-bottom));border-block-start:1px solid var(--slate-200);background:rgba(255,255,255,.94);backdrop-filter:blur(16px)}
       .mobile-link{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:49px;border-radius:12px;color:var(--slate-500);font-size:8px;font-weight:800}
       .mobile-link i{font-size:16px}
@@ -411,7 +526,8 @@
       .brand-name{font-size:17px}
       .brand-mark{width:39px;height:39px}
       .header-actions{margin-inline-start:auto}
-      .header-actions .saved-head{display:none}
+      .header-actions .saved-head,.header-actions .icon-btn[aria-label="Notifications"],.header-actions .icon-btn[aria-label="Sign in"]{display:none}
+      .lang-btn{padding-inline:9px}
       .hero{padding-block-start:12px}
       .hero-stage{border-radius:24px}
       .hero-content{padding:28px 20px 195px}
@@ -426,6 +542,11 @@
       .section{padding-block:50px}
       .section-head{align-items:start;flex-direction:column}
       .vehicle-media{height:230px}
+      .vehicle-body{padding:15px}
+      .vehicle-specs{gap:5px}
+      .mini-spec{padding:8px 5px}
+      .price-row{align-items:stretch;flex-direction:column}
+      .price-row .btn{width:100%}
       .page-space{padding-block-start:28px}
       .gallery-main{height:310px}
       .detail-heading{display:block}
@@ -433,6 +554,11 @@
       .offer-mini{grid-template-columns:1fr}
       .spec-grid{grid-template-columns:1fr 1fr}
       .snapshot-banner{align-items:start;flex-direction:column}
+      .snapshot-banner>*{width:100%}
+      .station-footer{align-items:stretch;flex-direction:column}
+      .station-footer .btn{width:100%}
+      .result-big{font-size:clamp(27px,10vw,40px);line-height:1.15;overflow-wrap:anywhere}
+      .tool-card,.content-card,.card-pad{padding:18px}
       #charging-map{height:360px}
       .service-hero-copy,.image-split-copy{padding:28px}
       .fleet-copy{width:100%;padding:28px}
@@ -443,6 +569,25 @@
       .dialog-body .vehicle-grid{grid-template-columns:1fr!important}
       .role-tabs{display:grid;grid-template-columns:1fr 1fr;overflow:visible}
       .role-tab{min-width:0}
+      .smart-hero{padding:24px 18px}
+      .smart-hero-panel{grid-template-columns:1fr 1fr}
+      .smart-live-grid,.feature-roadmap{grid-template-columns:1fr}
+      .smart-demo{padding:18px}
+      .readiness-score{grid-template-columns:88px 1fr;gap:12px}
+      .score-ring{width:88px;height:88px}
+      .compat-item{align-items:flex-start;flex-direction:column}
+      .feature-card{min-height:220px}
+      .offer-price strong{font-size:28px;line-height:1.2;overflow-wrap:anywhere}
+      .prediction-grid{grid-template-columns:1fr 1fr 1fr}
+      .prediction-stat{padding:10px 5px}
+      .vehicle-range-head,.account-hero{align-items:stretch;grid-template-columns:1fr;flex-direction:column}
+      .vehicle-range-head{display:flex}
+      .vehicle-range-head .btn{width:100%}
+      #vehicle-range-map{height:330px}
+      .account-action-grid{grid-template-columns:1fr}
+      .model-controls{grid-template-columns:1fr}
+      .range-trip-result{grid-template-columns:40px minmax(0,1fr)}
+      .range-trip-result>b{grid-column:2}
     }
     @media(prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}
@@ -476,14 +621,14 @@
         <a class="nav-link" href="#/tools" data-route="tools"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i><span data-i18n="navTools">مختبر المدى</span></a>
         <a class="nav-link" href="#/charging" data-route="charging"><i class="fa-solid fa-charging-station" aria-hidden="true"></i><span data-i18n="navCharging">الشحن</span></a>
         <a class="nav-link" href="#/services" data-route="services"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span data-i18n="navServices">الخدمات</span></a>
-        <a class="nav-link" href="#/workspace/dealer" data-route="workspace"><i class="fa-solid fa-briefcase" aria-hidden="true"></i><span data-i18n="navBusiness">للأعمال</span></a>
+        <a class="nav-link" href="#/account" data-route="account"><i class="fa-solid fa-circle-user" aria-hidden="true"></i><span data-i18n="navBusiness">صفحتي</span></a>
       </nav>
       <div class="header-actions">
         <button class="lang-btn" type="button" data-action="language" aria-label="Switch language"><i class="fa-solid fa-language" aria-hidden="true"></i><span id="lang-label">EN</span></button>
         <button class="icon-btn" type="button" data-action="notifications" aria-label="Notifications"><i class="fa-regular fa-bell" aria-hidden="true"></i><span class="count-badge">3</span></button>
         <button class="icon-btn saved-head" type="button" data-action="saved" aria-label="Saved vehicles"><i class="fa-regular fa-heart" aria-hidden="true"></i><span id="saved-count" class="count-badge">0</span></button>
         <button class="icon-btn" type="button" data-action="compare-page" aria-label="Comparison"><i class="fa-solid fa-code-compare" aria-hidden="true"></i><span id="compare-count" class="count-badge">0</span></button>
-        <button class="icon-btn" type="button" data-action="account-login" aria-label="Sign in"><i class="fa-regular fa-circle-user" aria-hidden="true"></i></button>
+        <button class="icon-btn" type="button" data-action="account-page" aria-label="My account"><i class="fa-regular fa-circle-user" aria-hidden="true"></i></button>
         <button class="btn btn-primary consult-btn" type="button" data-action="consult"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span data-i18n="consult">اسأل خبير EV</span></button>
       </div>
     </div>
@@ -492,9 +637,9 @@
   <nav class="mobile-nav" aria-label="Mobile">
     <a class="mobile-link" href="#/home" data-route="home"><i class="fa-solid fa-house" aria-hidden="true"></i><span data-i18n="navHome">الرئيسية</span></a>
     <a class="mobile-link" href="#/marketplace" data-route="marketplace"><i class="fa-solid fa-car-side" aria-hidden="true"></i><span data-i18n="navMarket">السوق</span></a>
+    <a class="mobile-link" href="#/compare" data-route="compare"><i class="fa-solid fa-code-compare" aria-hidden="true"></i><span data-i18n="navCompare">المقارنة</span></a>
     <a class="mobile-link" href="#/charging" data-route="charging"><i class="fa-solid fa-charging-station" aria-hidden="true"></i><span data-i18n="navCharging">الشحن</span></a>
-    <a class="mobile-link" href="#/services" data-route="services"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span data-i18n="navServices">الخدمات</span></a>
-    <a class="mobile-link" href="#/workspace/dealer" data-route="workspace"><i class="fa-solid fa-circle-user" aria-hidden="true"></i><span data-i18n="account">حسابي</span></a>
+    <a class="mobile-link" href="#/services" data-route="services"><i class="fa-solid fa-shield-heart" aria-hidden="true"></i><span data-i18n="navServices">الخدمات</span></a>
   </nav>
   <footer class="site-footer">
     <div class="shell">
@@ -504,7 +649,7 @@
           <p data-i18n="footerPitch">منصة واحدة لاكتشاف المركبة، فهم البطارية، تخطيط الشحن، وإدارة رحلة الملكية بثقة في السعودية.</p>
           <span class="badge badge-volt" data-i18n="demoBadge">نموذج تفاعلي — بيانات تجريبية</span>
         </div>
-        <div class="footer-col"><h2 data-i18n="footerExplore">استكشف</h2><a href="#/marketplace" data-i18n="navMarket">السوق</a><a href="#/compare" data-i18n="navCompare">المقارنة</a><a href="#/tools" data-i18n="navTools">مختبر المدى</a></div>
+        <div class="footer-col"><h2 data-i18n="footerExplore">استكشف</h2><a href="#/marketplace" data-i18n="navMarket">السوق</a><a href="#/compare" data-i18n="navCompare">المقارنة</a><a href="#/services" data-i18n="navServices">الخدمات</a><a href="#/account" data-i18n="navBusiness">صفحتي</a></div>
         <div class="footer-col"><h2 data-i18n="footerOwn">الملكية</h2><a href="#/charging" data-i18n="navCharging">الشحن</a><a href="#/services" data-i18n="navServices">الخدمات</a><button type="button" data-action="charger-quiz" data-i18n="homeCharging">الشحن المنزلي</button></div>
         <div class="footer-col"><h2 data-i18n="footerTrust">الثقة والشفافية</h2><button type="button" data-action="sources" data-i18n="sources">المصادر والمنهجية</button><button type="button" data-action="privacy" data-i18n="privacy">الخصوصية والبيانات</button><a href="#/workspace/admin" data-i18n="trustCenter">مركز الثقة</a></div>
       </div>
@@ -521,14 +666,14 @@
     "use strict";
     const I18N={
       ar:{
-        skip:"تخطي إلى المحتوى",brandTag:"منصة التنقل الكهربائي السعودية",navHome:"الرئيسية",navMarket:"السوق",navCompare:"المقارنة",navTools:"مختبر المدى",navCharging:"الشحن",navServices:"الخدمات",navBusiness:"للأعمال",account:"حسابي",consult:"اسأل خبير EV",
+        skip:"تخطي إلى المحتوى",brandTag:"منصة التنقل الكهربائي السعودية",navHome:"الرئيسية",navMarket:"السوق",navCompare:"المقارنة",navTools:"مختبر المدى",navCharging:"الشحن",navServices:"الخدمات",navBusiness:"صفحتي",account:"حسابي",consult:"اسأل خبير EV",
         footerPitch:"منصة واحدة لاكتشاف المركبة، فهم البطارية، تخطيط الشحن، وإدارة رحلة الملكية بثقة في السعودية.",demoBadge:"نموذج تفاعلي — بيانات تجريبية",footerExplore:"استكشف",footerOwn:"الملكية",footerTrust:"الثقة والشفافية",homeCharging:"الشحن المنزلي",sources:"المصادر والمنهجية",privacy:"الخصوصية والبيانات",trustCenter:"مركز الثقة",independent:"سوق مستقل غير تابع للمصنّعين المعروضين.",ksaFirst:"السعودية أولاً · بنية جاهزة للتوسع الخليجي",
-        phaseMvp:"MVP",phaseNext:"المرحلة التالية",phaseFuture:"مستقبلي",vatIncluded:"السعر شامل ضريبة القيمة المضافة",demoListing:"إعلان تجريبي",verified:"موثّق من EVHUB",officialKsa:"متوفرة رسميًا في السعودية",parallelImport:"استيراد موازٍ",personalImport:"استيراد شخصي",requestPrice:"اطلب السعر",monthlyFrom:"قسط تقديري من",viewVehicle:"عرض المركبة",save:"حفظ",saved:"محفوظة",compare:"مقارنة",share:"مشاركة",city:"المدينة",all:"الكل",reset:"إعادة ضبط",results:"نتيجة",sort:"الترتيب",filter:"الفلاتر",apply:"عرض النتائج",noResults:"لا توجد نتائج مطابقة",tryWider:"جرّب توسيع الفلاتر أو إعادة ضبطها.",backMarket:"العودة إلى السوق",bookDrive:"احجز تجربة قيادة",requestOffer:"اطلب عرضًا",whatsapp:"تواصل عبر واتساب",report:"الإبلاغ عن الإعلان",inspection:"تقرير فحص موثّق",batteryHealth:"صحة البطارية",warrantyKsa:"الضمان ساري داخل السعودية",serviceCoverage:"تغطية الصيانة",lastVerified:"آخر تحقق",illustrative:"تقدير توضيحي وليس رقمًا معتمدًا من المصنع",showDifferences:"عرض الاختلافات فقط",remove:"إزالة",browseVehicles:"تصفح المركبات",openDirections:"فتح الاتجاهات",availabilityUnknown:"التوفر اللحظي غير متاح",dataSnapshot:"لقطة بيانات مؤرخة وليست واجهة مباشرة",learnMore:"اعرف المزيد",startJourney:"ابدأ الرحلة",comingSoon:"قريبًا",roleSeller:"البائع",roleDealer:"المعرض",roleFleet:"الأساطيل",roleAdmin:"الإدارة",submit:"إرسال",cancel:"إلغاء",close:"إغلاق",sourceVerified:"تم التحقق من المصدر",pending:"قيد التحقق",approved:"تم الاعتماد",rejected:"مرفوض"
+        phaseMvp:"يعمل الآن",phaseNext:"المرحلة التالية",phaseFuture:"مستقبلي",vatIncluded:"السعر شامل ضريبة القيمة المضافة",demoListing:"إعلان تجريبي",verified:"موثّق من EVHUB",officialKsa:"متوفرة رسميًا في السعودية",parallelImport:"استيراد موازٍ",personalImport:"استيراد شخصي",requestPrice:"اطلب السعر",monthlyFrom:"قسط تقديري من",viewVehicle:"عرض المركبة",save:"حفظ",saved:"محفوظة",compare:"مقارنة",share:"مشاركة",city:"المدينة",all:"الكل",reset:"إعادة ضبط",results:"نتيجة",sort:"الترتيب",filter:"الفلاتر",apply:"عرض النتائج",noResults:"لا توجد نتائج مطابقة",tryWider:"جرّب توسيع الفلاتر أو إعادة ضبطها.",backMarket:"العودة إلى السوق",bookDrive:"احجز تجربة قيادة",requestOffer:"اطلب عرضًا",whatsapp:"تواصل عبر واتساب",report:"الإبلاغ عن الإعلان",inspection:"تقرير فحص موثّق",batteryHealth:"صحة البطارية",warrantyKsa:"الضمان ساري داخل السعودية",serviceCoverage:"تغطية الصيانة",lastVerified:"آخر تحقق",illustrative:"تقدير توضيحي وليس رقمًا معتمدًا من المصنع",showDifferences:"عرض الاختلافات فقط",remove:"إزالة",browseVehicles:"تصفح المركبات",openDirections:"فتح الاتجاهات",availabilityUnknown:"التوفر اللحظي غير متاح",dataSnapshot:"لقطة بيانات مؤرخة وليست واجهة مباشرة",learnMore:"اعرف المزيد",startJourney:"ابدأ الرحلة",comingSoon:"قريبًا",roleSeller:"البائع",roleDealer:"المعرض",roleFleet:"الأساطيل",roleAdmin:"الإدارة",submit:"إرسال",cancel:"إلغاء",close:"إغلاق",sourceVerified:"تم التحقق من المصدر",pending:"قيد التحقق",approved:"تم الاعتماد",rejected:"مرفوض"
       },
       en:{
-        skip:"Skip to content",brandTag:"Saudi electric mobility platform",navHome:"Home",navMarket:"Marketplace",navCompare:"Compare",navTools:"Range Lab",navCharging:"Charging",navServices:"Services",navBusiness:"Business",account:"Account",consult:"Ask an EV expert",
+        skip:"Skip to content",brandTag:"Saudi electric mobility platform",navHome:"Home",navMarket:"Marketplace",navCompare:"Compare",navTools:"Range Lab",navCharging:"Charging",navServices:"Services",navBusiness:"My Page",account:"Account",consult:"Ask an EV expert",
         footerPitch:"One platform to discover a vehicle, understand its battery, plan charging and manage ownership with confidence in Saudi Arabia.",demoBadge:"Interactive prototype — demo data",footerExplore:"Explore",footerOwn:"Ownership",footerTrust:"Trust & transparency",homeCharging:"Home charging",sources:"Sources & methodology",privacy:"Privacy & data",trustCenter:"Trust center",independent:"Independent marketplace; not affiliated with displayed manufacturers.",ksaFirst:"Saudi-first · GCC-ready architecture",
-        phaseMvp:"MVP",phaseNext:"Next phase",phaseFuture:"Future",vatIncluded:"Price includes VAT",demoListing:"Demo listing",verified:"EVHUB Verified",officialKsa:"Officially available in KSA",parallelImport:"Parallel import",personalImport:"Personal import",requestPrice:"Request price",monthlyFrom:"Estimated monthly from",viewVehicle:"View vehicle",save:"Save",saved:"Saved",compare:"Compare",share:"Share",city:"City",all:"All",reset:"Reset",results:"results",sort:"Sort",filter:"Filters",apply:"Show results",noResults:"No matching results",tryWider:"Try widening or resetting your filters.",backMarket:"Back to marketplace",bookDrive:"Book a test drive",requestOffer:"Request offer",whatsapp:"Contact via WhatsApp",report:"Report listing",inspection:"Verified inspection report",batteryHealth:"Battery health",warrantyKsa:"Warranty valid in KSA",serviceCoverage:"Service coverage",lastVerified:"Last verified",illustrative:"Illustrative estimate, not an OEM-certified figure",showDifferences:"Show differences only",remove:"Remove",browseVehicles:"Browse vehicles",openDirections:"Open directions",availabilityUnknown:"Live availability unavailable",dataSnapshot:"Dated data snapshot, not a live feed",learnMore:"Learn more",startJourney:"Start journey",comingSoon:"Coming soon",roleSeller:"Seller",roleDealer:"Dealer",roleFleet:"Fleet",roleAdmin:"Admin",submit:"Submit",cancel:"Cancel",close:"Close",sourceVerified:"Source verified",pending:"Pending verification",approved:"Approved",rejected:"Rejected"
+        phaseMvp:"Live demo",phaseNext:"Next phase",phaseFuture:"Future",vatIncluded:"Price includes VAT",demoListing:"Demo listing",verified:"EVHUB Verified",officialKsa:"Officially available in KSA",parallelImport:"Parallel import",personalImport:"Personal import",requestPrice:"Request price",monthlyFrom:"Estimated monthly from",viewVehicle:"View vehicle",save:"Save",saved:"Saved",compare:"Compare",share:"Share",city:"City",all:"All",reset:"Reset",results:"results",sort:"Sort",filter:"Filters",apply:"Show results",noResults:"No matching results",tryWider:"Try widening or resetting your filters.",backMarket:"Back to marketplace",bookDrive:"Book a test drive",requestOffer:"Request offer",whatsapp:"Contact via WhatsApp",report:"Report listing",inspection:"Verified inspection report",batteryHealth:"Battery health",warrantyKsa:"Warranty valid in KSA",serviceCoverage:"Service coverage",lastVerified:"Last verified",illustrative:"Illustrative estimate, not an OEM-certified figure",showDifferences:"Show differences only",remove:"Remove",browseVehicles:"Browse vehicles",openDirections:"Open directions",availabilityUnknown:"Live availability unavailable",dataSnapshot:"Dated data snapshot, not a live feed",learnMore:"Learn more",startJourney:"Start journey",comingSoon:"Coming soon",roleSeller:"Seller",roleDealer:"Dealer",roleFleet:"Fleet",roleAdmin:"Admin",submit:"Submit",cancel:"Cancel",close:"Close",sourceVerified:"Source verified",pending:"Pending verification",approved:"Approved",rejected:"Rejected"
       }
     };
     const marketConfig={
@@ -582,12 +727,12 @@
       {id:"partner-riyadh",name:{ar:"مركز EVHUB التجريبي",en:"EVHUB demo center"},city:{ar:"الرياض",en:"Riyadh"},cityKey:"Riyadh",operator:"Partner",lat:24.7136,lng:46.6753,power:22,connector:"Type 2",tariff:null,status:"coming",hours:"Coming soon",amenities:{ar:"فحص · صالة انتظار",en:"Inspection · lounge"},verified:"2026-07-12"}
     ];
     const services=[
-      {id:"verified",phase:"next",icon:"fa-shield-halved",title:{ar:"EVHUB Verified",en:"EVHUB Verified"},desc:{ar:"فحص شامل للمركبة والبطارية مع منهجية وتاريخ ومُصدر واضح.",en:"Vehicle and battery inspection with a named method, date and verifier."},image:"Media/ev-inspection.webp",steps:[{ar:"حجز الموعد",en:"Book a slot"},{ar:"فحص 200 نقطة",en:"200-point inspection"},{ar:"اختبار AC/DC والبطارية",en:"AC/DC and battery test"},{ar:"إصدار جواز الفحص",en:"Issue inspection passport"}]},
-      {id:"home",phase:"future",icon:"fa-house-circle-bolt",title:{ar:"الشاحن المنزلي",en:"Home charger"},desc:{ar:"من توافق المركبة والعقار إلى المعاينة والتركيب والمتابعة.",en:"From vehicle and property fit to survey, installation and support."},image:"Media/home-charger.webp",steps:[{ar:"استبيان التوافق",en:"Compatibility quiz"},{ar:"معاينة الموقع",en:"Site survey"},{ar:"عرض شفاف",en:"Transparent quote"},{ar:"تركيب بواسطة جهة مؤهلة",en:"Qualified installation"}]},
-      {id:"battery",phase:"next",icon:"fa-car-battery",title:{ar:"البطارية والقطع",en:"Battery & parts"},desc:{ar:"صحة البطارية، الاستبدال، الضمان، والملحقات المتوافقة.",en:"Battery health, replacement, warranty and compatible accessories."},image:"Media/ev-battery-pack.webp",steps:[{ar:"تشخيص الحالة",en:"Diagnose"},{ar:"تأكيد التوافق",en:"Confirm fit"},{ar:"عرض الخيارات",en:"Review options"},{ar:"تركيب وضمان",en:"Install & warranty"}]},
-      {id:"care",phase:"next",icon:"fa-screwdriver-wrench",title:{ar:"الصيانة والمساعدة",en:"Care & roadside"},desc:{ar:"حجز ورش مؤهلة، صيانة دورية، ومساعدة على الطريق.",en:"Qualified workshops, scheduled care and roadside assistance."},image:"Media/ev-inspection.webp",steps:[{ar:"حدد الخدمة",en:"Choose service"},{ar:"اختر الموعد",en:"Select time"},{ar:"تابع الحالة",en:"Track status"},{ar:"قيّم التجربة",en:"Rate experience"}]},
-      {id:"finance",phase:"future",icon:"fa-coins",title:{ar:"التمويل والتأمين",en:"Finance & insurance"},desc:{ar:"مقارنة تقديرية شفافة مع إفصاح APR وإجمالي المبلغ.",en:"Transparent estimates with APR and total-payable disclosure."},image:"Media/ev-showroom-hero.webp",steps:[{ar:"حدد الميزانية",en:"Set budget"},{ar:"قارن السيناريوهات",en:"Compare scenarios"},{ar:"موافقة مبدئية",en:"Partner pre-check"},{ar:"عرض مرخص",en:"Licensed offer"}]},
-      {id:"community",phase:"future",icon:"fa-people-group",title:{ar:"مجتمع الملاك",en:"Owner community"},desc:{ar:"تجارب موثقة حسب المدينة والطراز والاستهلاك الصيفي.",en:"Verified experiences by city, trim and summer energy use."},image:"Media/ev-pickup-desert.webp",steps:[{ar:"تحقق من الملكية",en:"Verify ownership"},{ar:"أضف الاستهلاك",en:"Add consumption"},{ar:"شارك التجربة",en:"Share experience"},{ar:"ساعد مجتمعك",en:"Help the community"}]}
+      {id:"verified",phase:"mvp",icon:"fa-shield-halved",title:{ar:"EVHUB Verified",en:"EVHUB Verified"},desc:{ar:"جواز فحص بصري يعمل داخل إعلانات السيارات مع SoH والمنهجية والتاريخ.",en:"A visible inspection passport inside vehicle listings with SoH, method and date."},image:"Media/ev-inspection.webp",steps:[{ar:"اختر سيارة مفحوصة",en:"Choose an inspected car"},{ar:"راجع SoH",en:"Review SoH"},{ar:"افتح توقع العمر",en:"Open life forecast"},{ar:"راجع جواز الفحص",en:"Review inspection passport"}]},
+      {id:"home",phase:"mvp",icon:"fa-house-circle-bolt",title:{ar:"اختيار الشاحن المنزلي",en:"Home charger matcher"},desc:{ar:"استبيان تفاعلي يطابق السيارة والعقار وقدرة الشاحن المناسبة.",en:"An interactive quiz matching vehicle, property and suitable charger power."},image:"Media/home-charger.webp",steps:[{ar:"اختر العقار",en:"Choose property"},{ar:"حدد الموقف",en:"Set parking type"},{ar:"اختر المركبة",en:"Choose vehicle"},{ar:"استلم الخطة الأولية",en:"Get preliminary plan"}]},
+      {id:"battery",phase:"mvp",icon:"fa-car-battery",title:{ar:"مختبر عمر البطارية",en:"Battery life lab"},desc:{ar:"توقع تفاعلي على كل سيارة حسب المدينة والمسافة والشحن السريع والحرارة.",en:"Interactive forecast on every car using city, distance, fast charging and heat."},image:"Media/ev-battery-pack.webp",steps:[{ar:"اختر المدينة",en:"Choose city"},{ar:"حدد الاستخدام",en:"Set usage"},{ar:"عدّل الشحن والحرارة",en:"Tune charging and heat"},{ar:"شاهد توقع 5 سنوات",en:"See five-year forecast"}]},
+      {id:"care",phase:"mvp",icon:"fa-screwdriver-wrench",title:{ar:"خطة العناية الذكية",en:"Smart care plan"},desc:{ar:"مسار مرئي للصيانة والفحص والمساعدة مرتبط بنوع السيارة ومدينتها.",en:"A visible maintenance, inspection and assistance path tied to vehicle and city."},image:"Media/ev-inspection.webp",steps:[{ar:"حدد السيارة",en:"Select vehicle"},{ar:"راجع مراكز الخدمة",en:"Review service coverage"},{ar:"اختر الموعد",en:"Choose a slot"},{ar:"تابع الحالة",en:"Track status"}]},
+      {id:"finance",phase:"mvp",icon:"fa-coins",title:{ar:"حاسبة التوفير والملكية",en:"Savings & ownership calculator"},desc:{ar:"حاسبة تعمل الآن لمقارنة الشحن والوقود والتكلفة خلال خمس سنوات.",en:"A working five-year calculator comparing charging, fuel and ownership costs."},image:"Media/ev-showroom-hero.webp",steps:[{ar:"حدد المسافة",en:"Set distance"},{ar:"عدّل التعرفة",en:"Adjust rates"},{ar:"قارن الوقود",en:"Compare fuel"},{ar:"راجع توفير 5 سنوات",en:"Review five-year savings"}]},
+      {id:"community",phase:"mvp",icon:"fa-people-group",title:{ar:"تجارب الملاك",en:"Owner experiences"},desc:{ar:"نماذج مراجعات مرتبطة بالمدينة والطراز والمسافة والاستهلاك الصيفي.",en:"Owner-review demos tied to city, trim, distance and summer consumption."},image:"Media/ev-pickup-desert.webp",steps:[{ar:"اختر الطراز",en:"Choose model"},{ar:"حدد المدينة",en:"Set city"},{ar:"راجع الاستخدام الحقيقي",en:"Review real use"},{ar:"قارن التجارب",en:"Compare experiences"}]}
     ];
     const state={
       lang:["ar","en"].indexOf(localStorage.getItem("evhub-lang"))>=0?localStorage.getItem("evhub-lang"):"ar",
@@ -596,6 +741,8 @@
       search:"",
       filters:{category:"all",city:"all",price:500000,range:0,soh:0,supply:"all",verified:false},
       charging:{city:"all",power:0},
+      smart:JSON.parse(localStorage.getItem("evhub-profile")||'{"vehicle":"lucid-air","city":"Riyadh","tab":"climate"}'),
+      battery:JSON.parse(localStorage.getItem("evhub-battery")||'{"city":"Riyadh","usage":"regular","dailyKm":38,"daysWeek":4,"dcShare":25,"sunExposure":1}'),
       tools:JSON.parse(localStorage.getItem("evhub-tools")||'{"vehicle":"lucid-air","temp":44,"speed":120,"ac":2,"load":3,"terrain":1,"annual":24000,"homeShare":75,"homeRate":0.18,"publicRate":0.99,"petrolPrice":2.33,"petrolEff":12,"chargerCost":6500}'),
       adminQueue:[
         {id:1,title:{ar:"BYD Seal — إعلان مستورد",en:"BYD Seal — imported listing"},meta:{ar:"الضمان المحلي غير موثق",en:"Local warranty unverified"}},
@@ -603,7 +750,13 @@
         {id:3,title:{ar:"شاحن منزلي 22 kW",en:"22 kW home charger"},meta:{ar:"يتطلب مطابقة SASO",en:"SASO conformity required"}}
       ]
     };
+    state.smart.city=state.battery.city;
+    var initialUsage={heavy:{dailyKm:110,daysWeek:7,dcShare:55,sunExposure:2},regular:{dailyKm:38,daysWeek:4,dcShare:25,sunExposure:1},light:{dailyKm:15,daysWeek:2,dcShare:10,sunExposure:0}}[state.battery.usage]||{dailyKm:38,daysWeek:4,dcShare:25,sunExposure:1};
+    ["dailyKm","daysWeek","dcShare","sunExposure"].forEach(function(key){if(state.battery[key]==null){state.battery[key]=initialUsage[key]}});
     let mapInstance=null;
+    let vehicleRangeMap=null;
+    let vehicleRangeLayers=[];
+    let vehicleRangeContext=null;
     let mapMarkers=[];
     let dialogReturnFocus=null;
     let toastTimer=null;
@@ -614,7 +767,7 @@
     function routeInfo(){
       var raw=(location.hash||"#/home").replace(/^#\/?/,"");
       var parts=raw.split("/").filter(Boolean);
-      var valid=["home","marketplace","vehicle","compare","tools","charging","services","workspace"];
+      var valid=["home","marketplace","vehicle","compare","tools","charging","services","account","workspace"];
       if(!parts[0]||valid.indexOf(parts[0])<0){return{name:"home",parts:["home"]}}
       return{name:parts[0],parts:parts}
     }
@@ -649,6 +802,8 @@
       localStorage.setItem("evhub-saved",JSON.stringify(Array.from(state.saved)));
       localStorage.setItem("evhub-compare",JSON.stringify(Array.from(state.compare)));
       localStorage.setItem("evhub-tools",JSON.stringify(state.tools));
+      localStorage.setItem("evhub-battery",JSON.stringify(state.battery));
+      localStorage.setItem("evhub-profile",JSON.stringify(state.smart));
     }
     function updateShell(){
       document.documentElement.lang=state.lang;
@@ -670,6 +825,7 @@
         tools:{ar:"مختبر المدى والتكلفة | EVHUB",en:"Range and ownership lab | EVHUB"},
         charging:{ar:"خريطة الشحن | EVHUB",en:"Charging map | EVHUB"},
         services:{ar:"خدمات الملكية | EVHUB",en:"Ownership services | EVHUB"},
+        account:{ar:"صفحتي | EVHUB",en:"My Page | EVHUB"},
         workspace:{ar:"مساحة الأعمال | EVHUB",en:"Business workspace | EVHUB"}
       };
       document.title=bi(pageTitles[route]||pageTitles.home);
@@ -724,7 +880,7 @@
     function vehicleCard(v){
       var saved=state.saved.has(v.id),compared=state.compare.has(v.id),m=monthly(v);
       var img=imageTag(v.image,vehicleName(v),"","Media/ev-showroom-hero.webp");
-      return '<article class="vehicle-card reveal">'+
+      return '<article class="vehicle-card reveal" role="link" tabindex="0" data-action="detail" data-id="'+v.id+'" aria-label="'+tx("viewVehicle")+' '+esc(vehicleName(v))+'">'+
         '<div class="vehicle-media">'+img+
           '<div class="media-badges"><span class="badge badge-dark">'+tx("demoListing")+'</span>'+(v.verified?'<span class="badge badge-volt"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>'+tx("verified")+'</span>':'')+'</div>'+
           '<div class="card-actions"><button class="card-action '+(saved?"is-active":"")+'" type="button" data-action="save" data-id="'+v.id+'" aria-label="'+tx(saved?"saved":"save")+'"><i class="'+(saved?"fa-solid":"fa-regular")+' fa-heart" aria-hidden="true"></i></button><button class="card-action '+(compared?"is-active":"")+'" type="button" data-action="compare" data-id="'+v.id+'" aria-label="'+tx("compare")+'"><i class="fa-solid fa-code-compare" aria-hidden="true"></i></button></div>'+
@@ -877,7 +1033,7 @@
             '<h1 tabindex="-1">'+bi({ar:"كل رحلة كهربائية تبدأ من <em>قرار أوضح.</em>",en:"Every electric journey starts with a <em>clearer decision.</em>"})+'</h1>'+
             '<p class="hero-copy">'+bi({ar:"اكتشف، قارن، افحص، موّل، واشحن — في منصة عربية صممت للواقع السعودي من البداية.",en:"Discover, compare, inspect, finance and charge in an Arabic-native platform built around Saudi reality."})+'</p>'+
             '<form id="hero-search-form" class="hero-search"><label for="hero-query">'+bi({ar:"ابحث عن مركبة",en:"Search vehicles"})+'</label><input id="hero-query" name="query" autocomplete="off" placeholder="'+esc(bi({ar:"مثال: SUV بمدى 500 كم تحت 250 ألف",en:"Try: family SUV, 500 km range, under 250k"}))+'"><button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>'+bi({ar:"ابحث",en:"Search"})+'</button></form>'+
-            '<div class="hero-chips"><button class="hero-chip" type="button" data-action="finder"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> '+bi({ar:"ساعدني أختار",en:"Help me choose"})+'</button><button class="hero-chip" type="button" data-action="smart-query" data-query="SUV">SUV</button><button class="hero-chip" type="button" data-action="smart-query" data-query="AWD">AWD</button><button class="hero-chip" type="button" data-action="smart-query" data-query="Riyadh">'+bi({ar:"متوفر في الرياض",en:"Available in Riyadh"})+'</button></div>'+
+            '<div class="hero-chips"><button class="hero-chip" type="button" data-action="finder"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> '+bi({ar:"ساعدني أختار",en:"Help me choose"})+'</button><a class="hero-chip" href="#/services"><i class="fa-solid fa-shield-heart" aria-hidden="true"></i> '+bi({ar:"الخدمات والأدوات",en:"Services & tools"})+'</a><button class="hero-chip" type="button" data-action="smart-query" data-query="SUV">SUV</button><button class="hero-chip" type="button" data-action="smart-query" data-query="AWD">AWD</button><button class="hero-chip" type="button" data-action="smart-query" data-query="Riyadh">'+bi({ar:"متوفر في الرياض",en:"Available in Riyadh"})+'</button></div>'+
           '</div>'+
           '<aside class="hero-float" aria-label="'+esc(bi({ar:"لقطة شبكة EVIQ",en:"EVIQ network snapshot"}))+'"><div class="tiny">'+tx("dataSnapshot")+' · <bdi>12 Jul 2026</bdi></div><div class="snapshot-row"><div><b data-counter="'+marketConfig.eviq.cities+'">0</b><span>'+bi({ar:"مدن",en:"Cities"})+'</span></div><div><b data-counter="'+marketConfig.eviq.locations+'">0</b><span>'+bi({ar:"موقعًا",en:"Locations"})+'</span></div><div><b data-counter="'+marketConfig.eviq.connectors+'">0</b><span>'+bi({ar:"موصلًا",en:"Connectors"})+'</span></div></div></aside>'+
         '</div>'+
@@ -914,9 +1070,61 @@
           '</section></div>'+
       '</div></div>';
     }
+    function batteryCityProfile(key){
+      var cities={
+        Riyadh:{label:{ar:"الرياض",en:"Riyadh"},factor:1.18,climate:{ar:"حرارة مرتفعة وجفاف",en:"High heat and dry climate"},lat:24.7136,lng:46.6753},
+        Jeddah:{label:{ar:"جدة",en:"Jeddah"},factor:1.28,climate:{ar:"حرارة ورطوبة ساحلية",en:"Coastal heat and humidity"},lat:21.5433,lng:39.1728},
+        Dammam:{label:{ar:"الدمام",en:"Dammam"},factor:1.32,climate:{ar:"حرارة ورطوبة مرتفعة",en:"High heat and humidity"},lat:26.4207,lng:50.0888},
+        Makkah:{label:{ar:"مكة المكرمة",en:"Makkah"},factor:1.24,climate:{ar:"حرارة مرتفعة ومناخ جبلي",en:"High heat and mountainous climate"},lat:21.3891,lng:39.8579},
+        Madinah:{label:{ar:"المدينة المنورة",en:"Madinah"},factor:1.15,climate:{ar:"حرارة جافة",en:"Hot and dry climate"},lat:24.5247,lng:39.5692},
+        Abha:{label:{ar:"أبها",en:"Abha"},factor:.88,climate:{ar:"مناخ أبرد ومرتفعات",en:"Cooler highland climate"},lat:18.2465,lng:42.5117}
+      };
+      return cities[key]||cities.Riyadh;
+    }
+    function batteryPrediction(v){
+      var usage={heavy:{label:{ar:"استخدام يومي ثقيل",en:"Heavy daily use"}},regular:{label:{ar:"استخدام متوسط",en:"Regular use"}},light:{label:{ar:"استخدام خفيف",en:"Light use"}},custom:{label:{ar:"استخدام مخصص",en:"Custom use"}}}[state.battery.usage]||{label:{ar:"استخدام مخصص",en:"Custom use"}};
+      var city=batteryCityProfile(state.battery.city),current=Number(v.battery.soh||100);
+      var daily=Math.max(1,Number(state.battery.dailyKm)||1),days=Math.max(1,Number(state.battery.daysWeek)||1),dc=Math.max(0,Number(state.battery.dcShare)||0),sun=Math.max(0,Number(state.battery.sunExposure)||0);
+      var annualKm=daily*days*52;
+      var annual=(.78+(annualKm/30000)*1.55+(dc/100)*.48+sun*.24)*city.factor*(v.condition==="used"?1.04:1);
+      var y3=Math.max(65,current-annual*3),y5=Math.max(65,current-annual*5);
+      var years=Math.max(0,(current-70)/annual);
+      return {city:city,usage:usage,annual:annual,annualKm:annualKm,current:current,y3:y3,y5:y5,years:years};
+    }
+    function batteryPredictorCard(v){
+      var p=batteryPrediction(v);
+      var usageOptions=[
+        ["heavy","fa-road",{ar:"استخدام ثقيل",en:"Heavy use"},{ar:"110 كم يوميًا · 7 أيام",en:"110 km daily · 7 days"}],
+        ["regular","fa-calendar-days",{ar:"استخدام متوسط",en:"Regular use"},{ar:"38 كم · 4 أيام أسبوعيًا",en:"38 km · 4 days/week"}],
+        ["light","fa-feather",{ar:"استخدام خفيف",en:"Light use"},{ar:"15 كم · يومان أسبوعيًا",en:"15 km · 2 days/week"}]
+      ];
+      var points=[[bi({ar:"الآن",en:"Now"}),p.current],[bi({ar:"بعد 3 سنوات",en:"In 3 years"}),p.y3],[bi({ar:"بعد 5 سنوات",en:"In 5 years"}),p.y5]];
+      return '<section id="battery-forecast" class="content-card card reveal decision-card"><div class="section-head" style="margin-block-end:16px"><div><span class="badge badge-volt"><i class="fa-solid fa-chart-line" aria-hidden="true"></i>'+bi({ar:"محاكي يعمل الآن",en:"Working simulator"})+'</span><h2 style="margin-block-start:10px">'+bi({ar:"مختبر عمر البطارية",en:"Battery life lab"})+'</h2><p>'+bi({ar:"اختر نمطًا جاهزًا أو عدّل المسافة وأيام القيادة والشحن السريع بنفسك، مثل مختبر المدى.",en:"Choose a preset or tune distance, driving days and fast charging yourself, just like Range Lab."})+'</p></div></div><div class="battery-predictor-grid"><div><div class="field"><label for="battery-city">'+bi({ar:"مدينتك ومناخك",en:"Your city and climate"})+'</label><select id="battery-city" class="select" data-battery="city">'+["Riyadh","Jeddah","Dammam","Makkah","Madinah","Abha"].map(function(key){var item=batteryCityProfile(key);return '<option value="'+key+'" '+(state.battery.city===key?"selected":"")+'>'+esc(bi(item.label))+' · '+esc(bi(item.climate))+'</option>'}).join("")+'</select></div><label class="tiny" style="display:block;margin-block:14px 7px;font-weight:800">'+bi({ar:"اختيار سريع",en:"Quick preset"})+'</label><div class="usage-options">'+usageOptions.map(function(item){return '<button class="usage-option '+(state.battery.usage===item[0]?"active":"")+'" type="button" data-action="battery-usage" data-usage="'+item[0]+'"><i class="fa-solid '+item[1]+'" aria-hidden="true"></i><span><strong>'+esc(bi(item[2]))+'</strong><span>'+esc(bi(item[3]))+'</span></span></button>'}).join("")+'</div><div class="model-controls"><div class="field"><div class="field-output"><label for="battery-daily">'+bi({ar:"المسافة في يوم الاستخدام",en:"Distance per driving day"})+'</label><output id="battery-daily-output"><bdi>'+state.battery.dailyKm+' km</bdi></output></div><input id="battery-daily" type="range" min="5" max="150" step="5" value="'+state.battery.dailyKm+'" data-battery-model="dailyKm" data-vehicle="'+v.id+'"></div><div class="field"><div class="field-output"><label for="battery-days">'+bi({ar:"أيام القيادة أسبوعيًا",en:"Driving days per week"})+'</label><output id="battery-days-output"><bdi>'+state.battery.daysWeek+'/7</bdi></output></div><input id="battery-days" type="range" min="1" max="7" step="1" value="'+state.battery.daysWeek+'" data-battery-model="daysWeek" data-vehicle="'+v.id+'"></div><div class="field"><div class="field-output"><label for="battery-dc">'+bi({ar:"نسبة الشحن السريع DC",en:"DC fast-charging share"})+'</label><output id="battery-dc-output"><bdi>'+state.battery.dcShare+'%</bdi></output></div><input id="battery-dc" type="range" min="0" max="100" step="5" value="'+state.battery.dcShare+'" data-battery-model="dcShare" data-vehicle="'+v.id+'"></div><div class="field"><label for="battery-sun">'+bi({ar:"التعرض للحرارة أثناء الوقوف",en:"Heat exposure while parked"})+'</label><select id="battery-sun" class="select" data-battery-model="sunExposure" data-vehicle="'+v.id+'"><option value="0" '+(state.battery.sunExposure==0?"selected":"")+'>'+bi({ar:"غالبًا موقف مظلل",en:"Mostly shaded"})+'</option><option value="1" '+(state.battery.sunExposure==1?"selected":"")+'>'+bi({ar:"مزيج بين الظل والشمس",en:"Mixed shade and sun"})+'</option><option value="2" '+(state.battery.sunExposure==2?"selected":"")+'>'+bi({ar:"غالبًا تحت الشمس",en:"Mostly in direct sun"})+'</option></select></div></div></div><div class="prediction-panel" aria-live="polite"><div class="prediction-title"><span><i class="fa-solid fa-car-battery" aria-hidden="true"></i> '+esc(vehicleName(v))+'</span><strong id="battery-annual-km"><bdi>'+Math.round(p.annualKm).toLocaleString(locale())+' km/year</bdi></strong></div><div class="prediction-grid"><div class="prediction-stat"><b id="battery-current"><bdi>'+p.current.toFixed(1)+'%</bdi></b><span>'+bi({ar:"الصحة الآن",en:"Health now"})+'</span></div><div class="prediction-stat"><b id="battery-five"><bdi>'+p.y5.toFixed(1)+'%</bdi></b><span>'+bi({ar:"بعد 5 سنوات",en:"After 5 years"})+'</span></div><div class="prediction-stat"><b id="battery-years"><bdi>'+p.years.toFixed(1)+'</bdi></b><span>'+bi({ar:"سنة تقريبًا حتى 70٪",en:"approx. years to 70%"})+'</span></div></div><div class="degradation-bars">'+points.map(function(point,i){return '<div class="degradation-point"><span>'+esc(point[0])+'</span><div class="bar-track"><div id="battery-bar-'+i+'" class="bar-fill '+(i===0?"volt":"")+'" style="width:'+Math.max(0,Math.min(100,point[1]))+'%"></div></div><bdi id="battery-point-'+i+'">'+point[1].toFixed(1)+'%</bdi></div>'}).join("")+'</div><div class="prediction-insight"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i><p id="battery-insight">'+bi({ar:"في هذا السيناريو، المناخ وطريقة الاستخدام ينتجان تراجعًا تقديريًا قدره ",en:"In this scenario, climate and use produce an estimated decline of "})+'<bdi>'+p.annual.toFixed(2)+'%</bdi> '+bi({ar:"سنويًا.",en:"per year."})+'</p></div><p class="disclaimer" style="color:var(--slate-300)">'+bi({ar:"نموذج توضيحي للقرار وليس تشخيصًا هندسيًا أو ضمانًا. الفحص الفعلي SoH يظل المرجع.",en:"Decision-support model only; not an engineering diagnosis or warranty. A measured SoH inspection remains authoritative."})+'</p></div></div></section>';
+    }
+    function updateBatteryWidget(id){
+      var v=vehicles.find(function(item){return item.id===id})||vehicles[0],p=batteryPrediction(v);
+      var values=[p.current,p.y3,p.y5];
+      var set=function(id,value){var node=document.getElementById(id);if(node){node.innerHTML="<bdi>"+value+"</bdi>"}};
+      set("battery-daily-output",state.battery.dailyKm+" km");
+      set("battery-days-output",state.battery.daysWeek+"/7");
+      set("battery-dc-output",state.battery.dcShare+"%");
+      set("battery-annual-km",Math.round(p.annualKm).toLocaleString(locale())+" km/year");
+      set("battery-current",p.current.toFixed(1)+"%");
+      set("battery-five",p.y5.toFixed(1)+"%");
+      set("battery-years",p.years.toFixed(1));
+      values.forEach(function(value,i){var bar=document.getElementById("battery-bar-"+i),label=document.getElementById("battery-point-"+i);if(bar){bar.style.width=Math.max(0,Math.min(100,value))+"%"}if(label){label.textContent=value.toFixed(1)+"%"}});
+      var insight=document.getElementById("battery-insight");
+      if(insight){insight.innerHTML=bi({ar:"في هذا السيناريو، المناخ وطريقة الاستخدام ينتجان تراجعًا تقديريًا قدره ",en:"In this scenario, climate and use produce an estimated decline of "})+'<bdi>'+p.annual.toFixed(2)+'%</bdi> '+bi({ar:"سنويًا.",en:"per year."})}
+      persist();
+    }
+    function vehicleRangeCard(v){
+      var base=batteryCityProfile(state.battery.city),oneWay=Math.round(v.range.ksa),roundTrip=Math.round(v.range.ksa*.46);
+      return '<section id="range-map" class="content-card card reveal decision-card"><div class="vehicle-range-head"><div><span class="badge badge-brand"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>'+bi({ar:"خريطة شحنة واحدة",en:"One-charge map"})+'</span><h2 style="margin-block-start:10px">'+bi({ar:"إلى أين تستطيع الوصول؟",en:"How far can you reach?"})+'</h2><p class="muted tiny">'+bi({ar:"نبدأ من ",en:"Starting from "})+esc(bi(base.label))+' · '+bi({ar:"استخدم موقعك، ثم اضغط أي مكان على الخريطة لاختبار الرحلة.",en:"use your location, then tap anywhere on the map to test a trip."})+'</p></div><button class="btn btn-primary" type="button" data-action="locate-range" data-id="'+v.id+'"><i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i>'+bi({ar:"استخدم موقعي",en:"Use my location"})+'</button></div><div id="vehicle-range-map" role="region" aria-label="'+esc(bi({ar:"خريطة المدى المتوقع بشحنة واحدة",en:"Expected one-charge range map"}))+'"><div class="map-fallback"><div><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i><p>'+bi({ar:"جارٍ تجهيز نطاق المدى…",en:"Preparing the range area…"})+'</p></div></div></div><div id="range-trip-result" class="range-trip-result"><i class="fa-solid fa-location-arrow" aria-hidden="true"></i><div><strong>'+bi({ar:"اختر وجهة على الخريطة",en:"Choose a destination on the map"})+'</strong><p>'+bi({ar:"سنحسب المسافة ونسبة البطارية المتوقعة وإمكانية العودة.",en:"We will calculate distance, expected battery remaining and return feasibility."})+'</p></div><b><bdi>— km</bdi></b></div><div class="range-map-legend"><span class="legend-item"><span class="legend-dot"></span><bdi>'+oneWay+' km</bdi> '+bi({ar:"وصول باتجاه واحد",en:"one-way reach"})+'</span><span class="legend-item"><span class="legend-dot safe"></span><bdi>'+roundTrip+' km</bdi> '+bi({ar:"نطاق آمن للذهاب والعودة",en:"safer round-trip radius"})+'</span></div><p id="range-location-status" class="disclaimer">'+bi({ar:"المسافة المختارة تُحسب جغرافيًا من نقطة البداية. الطريق الفعلي والارتفاع والرياح قد تغير النتيجة.",en:"Selected distance is measured geographically from the origin. Actual roads, elevation and wind can change the result."})+'</p></section>';
+    }
     function detailView(id){
       var v=vehicles.find(function(item){return item.id===id})||vehicles[0];
       var m=monthly(v);
+      var prediction=batteryPrediction(v);
       var images=[v.image,"Media/ev-showroom-hero.webp","Media/ev-inspection.webp","Media/ev-battery-pack.webp"];
       var gallery='<div class="gallery"><div class="gallery-main">'+imageTag(images[0],vehicleName(v),"detail-main-image","Media/ev-showroom-hero.webp")+'<div class="media-badges"><span class="badge badge-dark">'+tx("demoListing")+'</span>'+(v.verified?'<span class="badge badge-volt"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>'+tx("verified")+'</span>':'')+'</div></div><div class="gallery-thumbs">'+images.map(function(src,i){return '<button class="thumb '+(i===0?"active":"")+'" type="button" data-action="thumb" data-src="'+esc(src)+'" aria-label="'+bi({ar:"صورة ",en:"Image "})+(i+1)+'">'+imageTag(src,"","","Media/ev-showroom-hero.webp")+'</button>'}).join("")+'</div></div>';
       var checklist=[
@@ -935,8 +1143,8 @@
       var similar=vehicles.filter(function(item){return item.id!==v.id&&item.category===v.category}).slice(0,3).map(vehicleCard).join("");
       return '<div class="route-view page-space"><div class="shell"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="#/home">'+tx("navHome")+'</a><i class="fa-solid fa-angle-left" aria-hidden="true"></i><a href="#/marketplace">'+tx("navMarket")+'</a><i class="fa-solid fa-angle-left" aria-hidden="true"></i><span>'+esc(vehicleName(v))+'</span></nav>'+
         '<div class="detail-layout"><div><div class="detail-heading"><div><span class="vehicle-brand">'+esc(v.brand)+'</span><h1 tabindex="-1">'+esc(bi(v.model))+' <span class="muted"><bdi>'+v.year+'</bdi></span></h1><div class="detail-meta"><span><i class="fa-solid fa-location-dot" aria-hidden="true"></i> '+esc(bi(v.city))+'</span><span><i class="fa-solid fa-circle" aria-hidden="true"></i> '+conditionLabel(v.condition)+'</span><span><i class="fa-solid fa-box-open" aria-hidden="true"></i> '+supplyLabel(v.supply)+'</span></div></div><span class="badge badge-amber">'+tx("demoListing")+'</span></div>'+
-          gallery+
-          '<div class="content-stack"><section class="content-card card reveal"><h2>'+bi({ar:"المواصفات الكهربائية الأساسية",en:"EV essentials"})+'</h2><div class="spec-grid">'+[
+          gallery+'<div class="decision-strip"><div class="decision-chip"><i class="fa-solid fa-road" aria-hidden="true"></i><b><bdi>'+v.range.ksa+' km</bdi></b><span>'+bi({ar:"مدى صيفي توضيحي",en:"Illustrative summer range"})+'</span></div><div class="decision-chip"><i class="fa-solid fa-car-battery" aria-hidden="true"></i><b><bdi>'+v.battery.soh+'%</bdi></b><span>'+bi({ar:"صحة البطارية الآن",en:"Battery health now"})+'</span></div><div class="decision-chip"><i class="fa-solid fa-bolt" aria-hidden="true"></i><b><bdi>'+v.charging.minutes+' min</bdi></b><span><bdi>10–80% DC</bdi></span></div><div class="decision-chip"><i class="fa-solid fa-chart-line" aria-hidden="true"></i><b><bdi>'+prediction.y5.toFixed(1)+'%</bdi></b><span>'+bi({ar:"توقع الصحة بعد 5 سنوات",en:"Health estimate after 5 years"})+'</span></div></div><nav class="detail-quicknav" aria-label="'+esc(bi({ar:"أقسام صفحة السيارة",en:"Vehicle page sections"}))+'"><button type="button" data-action="scroll-section" data-target="overview"><i class="fa-solid fa-gauge" aria-hidden="true"></i>'+bi({ar:"نظرة عامة",en:"Overview"})+'</button><button type="button" data-action="scroll-section" data-target="battery-forecast"><i class="fa-solid fa-car-battery" aria-hidden="true"></i>'+bi({ar:"عمر البطارية",en:"Battery life"})+'</button><button type="button" data-action="scroll-section" data-target="range-map"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>'+bi({ar:"خريطة المدى",en:"Range map"})+'</button><button type="button" data-action="scroll-section" data-target="ownership-cost"><i class="fa-solid fa-coins" aria-hidden="true"></i>'+bi({ar:"تكلفة الملكية",en:"Ownership cost"})+'</button></nav>'+
+          '<div class="content-stack"><section id="overview" class="content-card card reveal decision-card"><h2>'+bi({ar:"المواصفات الكهربائية الأساسية",en:"EV essentials"})+'</h2><div class="spec-grid">'+[
             ["fa-road",v.range.km+" km",v.range.standard+" range"],
             ["fa-car-battery",v.battery.kwh+" kWh",bi({ar:"سعة البطارية",en:"Battery capacity"})],
             ["fa-bolt",v.charging.dc+" kW",bi({ar:"أقصى شحن DC",en:"Peak DC charge"})],
@@ -948,11 +1156,11 @@
           ].map(function(s){return '<div class="spec-box"><i class="fa-solid '+s[0]+'" aria-hidden="true"></i><b><bdi>'+esc(s[1])+'</bdi></b><span>'+esc(s[2])+'</span></div>'}).join("")+'</div></section>'+
           '<section class="content-card card reveal"><h2>'+bi({ar:"المدى: الرسمي مقابل سياق السعودية",en:"Range: official versus Saudi context"})+'</h2><div class="range-compare"><div class="range-stat"><strong><bdi>'+v.range.km+' km</bdi></strong><span>'+esc(v.range.standard)+' · '+bi({ar:"رقم المقارنة المنشور",en:"Published comparison figure"})+'</span></div><div class="range-stat alt"><strong><bdi>'+v.range.ksa+' km</bdi></strong><span>'+bi({ar:"سيناريو توضيحي: 44°، طريق سريع، تكييف",en:"Illustrative: 44°C, highway, A/C"})+'</span></div></div><p class="disclaimer">'+tx("illustrative")+' · <a href="#/tools" style="color:var(--brand-700);font-weight:800">'+bi({ar:"عدّل الافتراضات في مختبر المدى",en:"Adjust assumptions in Range Lab"})+'</a></p></section>'+
           '<section class="content-card card reveal"><h2>'+bi({ar:"قائمة الجاهزية للسعودية",en:"Saudi-ready checklist"})+'</h2><div class="checklist">'+checklist.map(function(item,i){return '<div class="check-item"><i class="fa-solid '+(i<2?"fa-circle-check":"fa-circle-info")+'" aria-hidden="true"></i><span><b>'+esc(item[0])+'</b><span>'+esc(item[1])+'</span></span></div>'}).join("")+'</div></section>'+
-          '<section class="content-card card reveal"><h2>'+tx("inspection")+'</h2>'+inspectionContent+'</section>'+
-          '<section class="content-card card reveal"><h2>'+bi({ar:"الاقتصاديات والشفافية",en:"Ownership economics & transparency"})+'</h2><div class="spec-grid"><div class="spec-box"><i class="fa-solid fa-house-circle-bolt" aria-hidden="true"></i><b><bdi>0.18 SAR/kWh</bdi></b><span>'+bi({ar:"افتراض منزلي قابل للتعديل",en:"Editable home-rate assumption"})+'</span></div><div class="spec-box"><i class="fa-solid fa-charging-station" aria-hidden="true"></i><b><bdi>0.99 SAR/kWh</bdi></b><span>'+bi({ar:"تعرفة EVIQ معروضة لـ 150–400 kW",en:"EVIQ displayed rate for 150–400 kW"})+'</span></div><div class="spec-box"><i class="fa-solid fa-calculator" aria-hidden="true"></i><b>'+bi({ar:"5 سنوات",en:"5 years"})+'</b><span>'+bi({ar:"أفق حساب قابل للتعديل",en:"Editable cost horizon"})+'</span></div><div class="spec-box"><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i><b>APR</b><span>'+bi({ar:"إفصاح قبل أي عرض تمويل",en:"Disclose before any finance offer"})+'</span></div></div><a class="btn btn-soft" style="margin-block-start:15px" href="#/tools">'+bi({ar:"افتح حاسبة الملكية",en:"Open ownership calculator"})+'</a></section>'+
+          '<section class="content-card card reveal"><h2>'+tx("inspection")+'</h2>'+inspectionContent+'</section>'+batteryPredictorCard(v)+vehicleRangeCard(v)+
+          '<section id="ownership-cost" class="content-card card reveal decision-card"><h2>'+bi({ar:"الاقتصاديات والشفافية",en:"Ownership economics & transparency"})+'</h2><div class="spec-grid"><div class="spec-box"><i class="fa-solid fa-house-circle-bolt" aria-hidden="true"></i><b><bdi>0.18 SAR/kWh</bdi></b><span>'+bi({ar:"افتراض منزلي قابل للتعديل",en:"Editable home-rate assumption"})+'</span></div><div class="spec-box"><i class="fa-solid fa-charging-station" aria-hidden="true"></i><b><bdi>0.99 SAR/kWh</bdi></b><span>'+bi({ar:"تعرفة EVIQ معروضة لـ 150–400 kW",en:"EVIQ displayed rate for 150–400 kW"})+'</span></div><div class="spec-box"><i class="fa-solid fa-calculator" aria-hidden="true"></i><b>'+bi({ar:"5 سنوات",en:"5 years"})+'</b><span>'+bi({ar:"أفق حساب قابل للتعديل",en:"Editable cost horizon"})+'</span></div><div class="spec-box"><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i><b>APR</b><span>'+bi({ar:"إفصاح قبل أي عرض تمويل",en:"Disclose before any finance offer"})+'</span></div></div><a class="btn btn-soft" style="margin-block-start:15px" href="#/tools">'+bi({ar:"افتح حاسبة الملكية",en:"Open ownership calculator"})+'</a></section>'+
           '<section class="content-card card reveal"><h2>'+bi({ar:"تجربة مالك موثقة — نموذج",en:"Verified owner review — demo"})+'</h2><div class="check-item"><i class="fa-solid fa-user-check" aria-hidden="true"></i><span><b>'+bi({ar:"مالك في الرياض · 18,400 كم · صيف واحد",en:"Riyadh owner · 18,400 km · one summer"})+'</b><span>'+bi({ar:"الأفضل: هدوء المقصورة وسرعة الشحن. يحتاج تحسين: وضوح توفر قطع الغيار خارج الرياض.",en:"Best: cabin refinement and fast charging. Improve: clearer parts availability beyond Riyadh."})+'</span></span></div></section></div>'+
         '</div>'+
-        '<aside class="sticky-offer card"><div class="offer-price">'+money(v.price)+'<p>'+tx("vatIncluded")+' · '+tx("demoListing")+'</p></div>'+finance+'<div class="offer-actions"><button class="btn btn-primary btn-block" type="button" data-action="test-drive" data-id="'+v.id+'"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i>'+tx("bookDrive")+'</button><button class="btn btn-volt btn-block" type="button" data-action="offer" data-id="'+v.id+'"><i class="fa-solid fa-tag" aria-hidden="true"></i>'+tx("requestOffer")+'</button><button class="btn btn-dark btn-block" type="button" data-action="consult"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i>'+tx("whatsapp")+'</button><div class="offer-mini"><button class="btn btn-ghost btn-sm" type="button" data-action="save" data-id="'+v.id+'"><i class="fa-regular fa-heart" aria-hidden="true"></i>'+tx("save")+'</button><button class="btn btn-ghost btn-sm" type="button" data-action="compare" data-id="'+v.id+'"><i class="fa-solid fa-code-compare" aria-hidden="true"></i>'+tx("compare")+'</button></div><button class="btn btn-danger btn-sm btn-block" type="button" data-action="report"><i class="fa-regular fa-flag" aria-hidden="true"></i>'+tx("report")+'</button></div><p class="disclaimer">'+bi({ar:"القسط تقديري ولا يعد عرض تمويل. تخضع الشروط لموافقة جهة تمويل مرخصة. السعر والبيانات لأغراض واجهة النموذج.",en:"Estimated instalment only; not a finance offer. Final terms require a licensed provider. Price and data are for prototype UI."})+'</p><div class="source-item" style="margin-block-start:14px"><a href="'+esc(v.photoSource)+'" target="_blank" rel="noopener">'+bi({ar:"مصدر صورة المركبة",en:"Vehicle image source"})+'</a><p>'+esc(v.source)+' · '+bi({ar:"تم القص والضغط",en:"cropped and compressed"})+'</p></div></aside></div>'+
+        '<aside class="sticky-offer card"><div class="offer-price">'+money(v.price)+'<p>'+tx("vatIncluded")+' · '+tx("demoListing")+'</p></div>'+finance+'<div class="offer-actions"><button class="btn btn-primary btn-block" type="button" data-action="test-drive" data-id="'+v.id+'"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i>'+tx("bookDrive")+'</button><button class="btn btn-volt btn-block" type="button" data-action="offer" data-id="'+v.id+'"><i class="fa-solid fa-tag" aria-hidden="true"></i>'+tx("requestOffer")+'</button><button class="btn btn-dark btn-block" type="button" data-action="consult"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i>'+tx("whatsapp")+'</button><div class="offer-mini"><button class="btn btn-ghost btn-sm" type="button" data-action="save" data-id="'+v.id+'"><i class="fa-regular fa-heart" aria-hidden="true"></i>'+tx("save")+'</button><button class="btn btn-ghost btn-sm" type="button" data-action="compare" data-id="'+v.id+'"><i class="fa-solid fa-code-compare" aria-hidden="true"></i>'+tx("compare")+'</button></div><button class="btn btn-soft btn-sm btn-block" type="button" data-action="share" data-id="'+v.id+'"><i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i>'+tx("share")+'</button><button class="btn btn-danger btn-sm btn-block" type="button" data-action="report"><i class="fa-regular fa-flag" aria-hidden="true"></i>'+tx("report")+'</button></div><p class="disclaimer">'+bi({ar:"القسط تقديري ولا يعد عرض تمويل. تخضع الشروط لموافقة جهة تمويل مرخصة. السعر والبيانات لأغراض واجهة النموذج.",en:"Estimated instalment only; not a finance offer. Final terms require a licensed provider. Price and data are for prototype UI."})+'</p><div class="source-item" style="margin-block-start:14px"><a href="'+esc(v.photoSource)+'" target="_blank" rel="noopener">'+bi({ar:"مصدر صورة المركبة",en:"Vehicle image source"})+'</a><p>'+esc(v.source)+' · '+bi({ar:"تم القص والضغط",en:"cropped and compressed"})+'</p></div></aside></div>'+
         '<section class="section"><div class="section-head"><div><span class="eyebrow">'+bi({ar:"بدائل للمقارنة",en:"Alternatives"})+'</span><h2>'+bi({ar:"قد تناسبك أيضًا",en:"You may also consider"})+'</h2></div></div><div class="vehicle-grid">'+similar+'</div></section>'+
       '</div></div>';
     }
@@ -976,16 +1184,17 @@
         [tx("warrantyKsa"),function(v){return bi(v.warranty)}],
         [tx("serviceCoverage"),function(v){return v.service.length?v.service.join(" · "):bi({ar:"غير متاحة",en:"Unavailable"})}]
       ];
-      var table='<div class="compare-shell"><table class="compare-table"><caption>'+bi({ar:"مقارنة حتى ثلاث مركبات كهربائية",en:"Comparison of up to three EVs"})+'</caption><thead><tr><th scope="col">'+bi({ar:"المعيار",en:"Criterion"})+'</th>'+selected.map(function(v){return '<th scope="col"><div class="compare-head">'+imageTag(v.image,vehicleName(v),"","Media/ev-showroom-hero.webp")+'<strong>'+esc(vehicleName(v))+'</strong><span class="tiny muted"><bdi>'+v.year+'</bdi></span><button class="btn btn-danger btn-sm" type="button" data-action="compare" data-id="'+v.id+'" aria-label="'+tx("remove")+' '+esc(vehicleName(v))+'"><i class="fa-solid fa-xmark" aria-hidden="true"></i>'+tx("remove")+'</button></div></th>'}).join("")+'</tr></thead><tbody>'+
+      var table='<div class="compare-shell desktop-compare"><table class="compare-table"><caption>'+bi({ar:"مقارنة حتى ثلاث مركبات كهربائية",en:"Comparison of up to three EVs"})+'</caption><thead><tr><th scope="col">'+bi({ar:"المعيار",en:"Criterion"})+'</th>'+selected.map(function(v){return '<th scope="col"><div class="compare-head">'+imageTag(v.image,vehicleName(v),"","Media/ev-showroom-hero.webp")+'<strong>'+esc(vehicleName(v))+'</strong><span class="tiny muted"><bdi>'+v.year+'</bdi></span><button class="btn btn-danger btn-sm" type="button" data-action="compare" data-id="'+v.id+'" aria-label="'+tx("remove")+' '+esc(vehicleName(v))+'"><i class="fa-solid fa-xmark" aria-hidden="true"></i>'+tx("remove")+'</button></div></th>'}).join("")+'</tr></thead><tbody>'+
         rows.map(function(row){
           var values=selected.map(row[1]),same=values.every(function(value){return value===values[0]});
           return '<tr class="'+(same?"same":"different")+'"><th scope="row">'+esc(row[0])+'</th>'+values.map(function(value){return '<td><bdi>'+esc(value)+'</bdi></td>'}).join("")+'</tr>';
         }).join("")+'</tbody></table></div>';
+      var mobileCompare='<div class="compare-mobile" aria-label="'+esc(bi({ar:"مقارنة مبسطة للجوال",en:"Simplified mobile comparison"}))+'"><div class="compare-mobile-vehicles">'+selected.map(function(v){return '<article class="compare-mobile-vehicle">'+imageTag(v.image,vehicleName(v),"","Media/ev-showroom-hero.webp")+'<button class="card-action" type="button" data-action="compare" data-id="'+v.id+'" aria-label="'+tx("remove")+' '+esc(vehicleName(v))+'"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button><div><strong>'+esc(vehicleName(v))+'</strong><span class="tiny muted"><bdi>'+v.year+'</bdi></span></div></article>'}).join("")+'</div><div class="compare-mobile-list">'+rows.map(function(row){var values=selected.map(row[1]),same=values.every(function(value){return value===values[0]});return '<section class="compare-mobile-row '+(same?"same":"different")+'"><strong>'+esc(row[0])+'</strong><div class="compare-mobile-values">'+selected.map(function(v,i){return '<div class="compare-mobile-value"><span>'+esc(vehicleName(v))+'</span><bdi>'+esc(values[i])+'</bdi></div>'}).join("")+'</div></section>'}).join("")+'</div></div>';
       var bestRange=selected.slice().sort(function(a,b){return b.range.ksa-a.range.ksa})[0];
       var fastest=selected.slice().sort(function(a,b){return a.charging.minutes-b.charging.minutes})[0];
       var lowest=selected.filter(function(v){return v.price}).sort(function(a,b){return a.price-b.price})[0]||selected[0];
       return '<div class="route-view page-space"><div class="shell"><span class="eyebrow">'+tx("navCompare")+'</span><h1 class="page-title" tabindex="-1">'+bi({ar:"حوّل الأرقام إلى قرار",en:"Turn specifications into a decision"})+'</h1><p class="page-lead">'+bi({ar:"قارن الفروق التي تؤثر فعليًا في حياتك داخل السعودية، وليس قائمة مواصفات طويلة فقط.",en:"Compare differences that affect Saudi ownership, not just a long specification sheet."})+'</p>'+
-        '<div class="snapshot-banner"><label class="check-line"><input id="differences-toggle" type="checkbox" data-action="differences"><span>'+tx("showDifferences")+'</span></label><span class="badge badge-slate">'+tx("illustrative")+'</span></div>'+table+
+        '<div class="snapshot-banner"><label class="check-line"><input id="differences-toggle" type="checkbox" data-action="differences"><span>'+tx("showDifferences")+'</span></label><span class="badge badge-slate">'+tx("illustrative")+'</span>'+(selected.length<3?'<a class="btn btn-dark btn-sm" href="#/marketplace"><i class="fa-solid fa-plus" aria-hidden="true"></i>'+bi({ar:"أضف مركبة",en:"Add vehicle"})+'</a>':'')+'</div>'+table+mobileCompare+
         '<section class="section"><div class="section-head"><div><span class="eyebrow">'+bi({ar:"ملخص بلغة بسيطة",en:"Plain-language summary"})+'</span><h2>'+bi({ar:"الأفضل حسب الأولوية",en:"Strongest by priority"})+'</h2></div></div><div class="journey-grid">'+
           '<article class="journey-card"><span class="num">01</span><i class="fa-solid fa-road" aria-hidden="true"></i><h3>'+bi({ar:"للمدى الصيفي",en:"For summer range"})+'</h3><p>'+esc(vehicleName(bestRange))+' · <bdi>'+bestRange.range.ksa+' km</bdi> '+bi({ar:"في السيناريو التوضيحي.",en:"in the illustrative scenario."})+'</p><a class="journey-link" href="#/vehicle/'+bestRange.id+'">'+tx("viewVehicle")+'</a></article>'+
           '<article class="journey-card"><span class="num">02</span><i class="fa-solid fa-bolt" aria-hidden="true"></i><h3>'+bi({ar:"لأسرع توقف شحن",en:"For faster charge stops"})+'</h3><p>'+esc(vehicleName(fastest))+' · <bdi>'+fastest.charging.minutes+' min</bdi> '+bi({ar:"من 10 إلى 80٪.",en:"from 10 to 80%."})+'</p><a class="journey-link" href="#/vehicle/'+fastest.id+'">'+tx("viewVehicle")+'</a></article>'+
@@ -1015,6 +1224,54 @@
         '<div class="snapshot-banner"><div><strong>'+bi({ar:"لماذا لا نضع رقم توفير جاهزًا؟",en:"Why no pre-baked savings claim?"})+'</strong><p>'+bi({ar:"لأن التعرفة والمسافة والكفاءة والتمويل وإعادة البيع تختلف. نعرض الافتراضات ونترك تعديلها لك.",en:"Rates, distance, efficiency, finance and resale vary. We expose assumptions and let you change them."})+'</p></div><button class="btn btn-ghost btn-sm" type="button" data-action="sources">'+tx("sources")+'</button></div>'+
       '</div></div>';
     }
+    function servicesRangeLab(){
+      var t=state.tools;
+      return '<section class="section"><div class="section-head"><div><span class="eyebrow">'+bi({ar:"مختبر المدى",en:"Range Lab"})+'</span><h2>'+bi({ar:"اختبر مدى سيارتك في مناخك",en:"Test your vehicle range in your climate"})+'</h2><p>'+bi({ar:"نسخة سريعة داخل الخدمات. غيّر السيارة والحرارة والسرعة وشاهد النتيجة فورًا.",en:"A quick version inside Services. Change the car, heat and speed to see the result instantly."})+'</p></div><a class="btn btn-ghost" href="#/tools">'+bi({ar:"افتح الحاسبة الكاملة",en:"Open full calculator"})+'</a></div><div class="tool-card card"><div class="field-grid"><div class="field"><label for="service-range-vehicle">'+bi({ar:"المركبة",en:"Vehicle"})+'</label><select id="service-range-vehicle" class="select" data-tool="vehicle">'+vehicles.filter(function(v){return v.category==="car"}).map(function(v){return '<option value="'+v.id+'" '+(t.vehicle===v.id?"selected":"")+'>'+esc(vehicleName(v))+' · '+v.range.km+' km</option>'}).join("")+'</select></div><div class="field"><label for="service-range-city">'+bi({ar:"المدينة الأساسية",en:"Home city"})+'</label><select id="service-range-city" class="select" data-battery="city">'+["Riyadh","Jeddah","Dammam","Makkah","Madinah","Abha"].map(function(key){return '<option value="'+key+'" '+(state.battery.city===key?"selected":"")+'>'+esc(bi(batteryCityProfile(key).label))+'</option>'}).join("")+'</select></div><div class="field"><div class="field-output"><label for="service-range-temp">'+bi({ar:"الحرارة",en:"Temperature"})+'</label><output id="tool-temp-output"><bdi>'+t.temp+'°C</bdi></output></div><input id="service-range-temp" type="range" min="15" max="50" value="'+t.temp+'" data-tool="temp"></div><div class="field"><div class="field-output"><label for="service-range-speed">'+bi({ar:"سرعة الطريق",en:"Road speed"})+'</label><output id="tool-speed-output"><bdi>'+t.speed+' km/h</bdi></output></div><input id="service-range-speed" type="range" min="60" max="140" step="5" value="'+t.speed+'" data-tool="speed"></div></div><div class="result-panel"><span class="tiny">'+bi({ar:"المدى المتوقع في السيناريو",en:"Expected scenario range"})+'</span><div id="range-result" class="result-big"><bdi>— km</bdi></div><p>'+tx("illustrative")+'</p><div class="bar-chart"><div><div class="bar-label"><span>'+bi({ar:"المدى الرسمي",en:"Official range"})+'</span><bdi id="official-range">—</bdi></div><div class="bar-track"><div id="official-range-bar" class="bar-fill" style="width:100%"></div></div></div><div><div class="bar-label"><span>'+bi({ar:"السيناريو الحالي",en:"Current scenario"})+'</span><bdi id="scenario-range">—</bdi></div><div class="bar-track"><div id="scenario-range-bar" class="bar-fill volt"></div></div></div></div></div></div></section>';
+    }
+    function servicesHubView(){
+      var profileVehicle=vehicles.find(function(v){return v.id===state.smart.vehicle})||vehicles[0];
+      var cityData={
+        Riyadh:{score:8,stations:22,service:7,label:{ar:"الرياض",en:"Riyadh"}},
+        Jeddah:{score:7,stations:14,service:5,label:{ar:"جدة",en:"Jeddah"}},
+        Dammam:{score:6,stations:8,service:4,label:{ar:"الدمام",en:"Dammam"}},
+        Makkah:{score:5,stations:6,service:2,label:{ar:"مكة",en:"Makkah"}}
+      };
+      var city=cityData[state.smart.city]||cityData.Riyadh;
+      var power=profileVehicle.charging.ac>=19?"22 kW":profileVehicle.charging.ac>=11?"11 kW":"7 kW";
+      var compatible=[
+        {name:{ar:"شاحن جداري ذكي ",en:"Smart wallbox "},meta:power+" · Type 2",icon:"fa-house-circle-bolt"},
+        {name:{ar:"كابل شحن متنقل",en:"Portable charging cable"},meta:"Type 2 · 32A",icon:"fa-plug-circle-bolt"},
+        {name:{ar:"حزمة حماية من الحرارة",en:"Heat protection bundle"},meta:bi({ar:"مناسبة للسيارة والمناخ",en:"Matched to vehicle and climate"}),icon:"fa-temperature-high"}
+      ];
+      var sim={
+        climate:{icon:"fa-temperature-three-quarters",title:{ar:"المناخ",en:"Climate"},value:"21°C",note:{ar:"تبريد المقصورة · المروحة 2",en:"Cabin cooling · fan 2"}},
+        charging:{icon:"fa-bolt",title:{ar:"الشحن",en:"Charging"},value:"72%",note:{ar:"متبقي 18 دقيقة للوصول إلى 80٪",en:"18 minutes to reach 80%"}},
+        drive:{icon:"fa-gauge-high",title:{ar:"القيادة",en:"Drive"},value:"418 km",note:{ar:"مدى متوقع وفق السيناريو الحالي",en:"Expected range for current scenario"}}
+      }[state.smart.tab]||null;
+      var roadmap=[
+        {icon:"fa-file-shield",title:{ar:"شهادة صحة البطارية SoH",en:"SoH battery certificate"},desc:{ar:"رفع تقرير فحص مع شريط مرئي وطريقة القياس وتاريخ التحقق.",en:"Upload an inspection report with visual health, method and verification date."},phase:"next",need:{ar:"قاعدة بيانات + رفع ملفات + مزود فحص",en:"Database + file upload + inspection provider"},href:"#/vehicle/ioniq-5-used"},
+        {icon:"fa-map-location-dot",title:{ar:"خريطة المدى التفاعلية",en:"Dynamic range map"},desc:{ar:"دائرة وصول شخصية من موقع المستخدم لكل سيارة، مع نطاق آمن للذهاب والعودة.",en:"A personal reach circle from the user location for every car, plus a safer round-trip zone."},phase:"mvp",need:{ar:"تعمل الآن داخل صفحة كل سيارة",en:"Working now on every vehicle page"},href:"#/marketplace"},
+        {icon:"fa-calculator",title:{ar:"حاسبة التوفير TCO",en:"TCO savings calculator"},desc:{ar:"مقارنة قابلة للتعديل بين تكلفة الشحن والوقود لخمس سنوات.",en:"Editable five-year charging-versus-fuel comparison."},phase:"mvp",need:{ar:"تعمل الآن ببيانات توضيحية",en:"Working now with illustrative data"},href:"#/tools"},
+        {icon:"fa-camera-retro",title:{ar:"معاينة الشاحن بالواقع المعزز",en:"AR charger preview"},desc:{ar:"رؤية حجم ومكان الشاحن الجداري عبر كاميرا الجوال قبل الشراء.",en:"Preview wallbox size and placement through the phone camera."},phase:"future",need:{ar:"تطبيق جوال + ARKit/ARCore + نماذج 3D",en:"Mobile app + ARKit/ARCore + 3D models"}},
+        {icon:"fa-user-gear",title:{ar:"مطابقة الفني والتركيب",en:"Technician matchmaking"},desc:{ar:"شراء الشاحن وحجز فني معتمد وموعد التركيب في رحلة واحدة.",en:"Buy a charger and book a rated installer in one flow."},phase:"next",need:{ar:"حسابات فنيين + تقويم + دفع",en:"Technician accounts + calendar + payments"}},
+        {icon:"fa-bell",title:{ar:"تنبيهات السعر والتحديثات",en:"Price and OTA alerts"},desc:{ar:"إشعارات انخفاض السعر وتوفر القطع والتحديثات البرمجية المهمة.",en:"Price-drop, stock and important software-update notifications."},phase:"next",need:{ar:"حسابات + إشعارات + سجل أسعار",en:"Accounts + notifications + price history"}},
+        {icon:"fa-chart-line",title:{ar:"توقع عمر البطارية",en:"Battery-life predictor"},desc:{ar:"توقع SoH بعد 3 و5 سنوات وفق مناخ المدينة وكثافة الاستخدام على كل سيارة.",en:"Forecast SoH after 3 and 5 years from city climate and usage intensity on every car."},phase:"mvp",need:{ar:"نموذج أولي يعمل الآن ويتحسن لاحقًا بالبيانات",en:"Early model works now and can improve with data"},href:"#/marketplace"},
+        {icon:"fa-display",title:{ar:"محاكي شاشة السيارة",en:"Vehicle UI simulator"},desc:{ar:"تجربة مبسطة للشحن والمناخ والقيادة قبل مشاهدة السيارة.",en:"A simplified charging, climate and driving preview before viewing the car."},phase:"mvp",need:{ar:"نموذج تفاعلي يعمل أعلاه",en:"Interactive prototype works above"}},
+        {icon:"fa-people-arrows-left-right",title:{ar:"تجربة قيادة مجتمعية P2P",en:"Community P2P test drive"},desc:{ar:"ربط المشتري بمالك موثّق لنفس الطراز داخل مدينته.",en:"Connect buyers with verified local owners of the same model."},phase:"future",need:{ar:"هوية + حجز + دفع + تأمين",en:"Identity + booking + payments + insurance"}},
+        {icon:"fa-box-open",title:{ar:"منشئ الحزم الذكي",en:"Smart bundle configurator"},desc:{ar:"اقتراح الشاحن والكابل والحماية الحرارية المتوافقة تلقائياً.",en:"Automatically suggest a compatible charger, cable and heat protection."},phase:"mvp",need:{ar:"يعمل كنموذج أعلى الصفحة",en:"Working as a prototype above"}},
+        {icon:"fa-charging-station",title:{ar:"الشحن من النظير للنظير P2P",en:"Peer-to-peer EV charging"},desc:{ar:"تسجيل شواحن المنازل، إخفاء العنوان حتى الدفع، ثم الحجز والتقييم.",en:"List home chargers, hide exact addresses until payment, then book and rate."},phase:"future",need:{ar:"قاعدة بيانات + خرائط + دفع + KYC + تقييمات",en:"Database + maps + payments + KYC + ratings"}}
+      ];
+      return '<div class="route-view page-space"><div class="shell"><span class="eyebrow">'+bi({ar:"خدمات EVHUB",en:"EVHUB Services"})+'</span><h1 class="page-title" tabindex="-1">'+bi({ar:"كل ما تحتاجه قبل الشراء وبعده",en:"Everything you need before and after buying"})+'</h1><p class="page-lead">'+bi({ar:"الفحص، التوافق، المدى، التوفير، جاهزية المدينة، وتجربة الملكية في صفحة خدمات واحدة واضحة.",en:"Inspection, compatibility, range, savings, city readiness and ownership support in one clear Services page."})+'</p>'+
+        '<section class="smart-hero dark-panel"><div><span class="badge badge-volt">'+bi({ar:"خدمات وأدوات تعمل الآن",en:"Working services and tools"})+'</span><h2>'+bi({ar:"من اختيار السيارة إلى قرار مناسب لمدينتك",en:"From choosing a car to a city-ready decision"})+'</h2><p>'+bi({ar:"جمعنا خدمات EVHUB والأدوات الذكية في مكان واحد. ما يحتاج نظامًا خلفيًا يظهر بوضوح على أنه قريبًا.",en:"EVHUB services and smart tools now live in one place. Anything needing a backend is clearly marked coming soon."})+'</p></div><div class="smart-hero-panel"><div class="smart-kpi"><b>11</b><span>'+bi({ar:"خدمة وميزة في الخطة",en:"services and roadmap features"})+'</span></div><div class="smart-kpi"><b>4</b><span>'+bi({ar:"تجارب تفاعلية الآن",en:"interactive demos now"})+'</span></div><div class="smart-kpi"><b>EV</b><span>'+bi({ar:"توافق حسب المنفذ والقدرة",en:"connector and power matching"})+'</span></div><div class="smart-kpi"><b>KSA</b><span>'+bi({ar:"سياق محلي للحرارة والمدن",en:"local heat and city context"})+'</span></div></div></section>'+
+        '<section class="section"><div class="section-head"><div><span class="eyebrow">'+bi({ar:"الخدمات الأساسية",en:"Core services"})+'</span><h2>'+bi({ar:"رحلة ملكية متكاملة",en:"A connected ownership journey"})+'</h2></div></div><div class="service-grid">'+services.map(serviceCard).join("")+'</div></section>'+servicesRangeLab()+
+        '<section class="section"><div class="section-head"><div><span class="eyebrow">'+bi({ar:"جرّب الآن",en:"Try now"})+'</span><h2>'+bi({ar:"أدوات واجهة تعمل دون حساب",en:"Frontend tools that work without an account"})+'</h2></div></div><div class="smart-live-grid">'+
+          '<article class="smart-demo card"><span class="badge badge-volt">'+bi({ar:"نموذج يعمل الآن",en:"Live prototype"})+'</span><h2>'+bi({ar:"محرك التوافق والحزم",en:"Compatibility & bundles"})+'</h2><p class="muted tiny">'+bi({ar:"اختر سيارتك لنفلتر الشاحن والكابل والحماية المتوافقة.",en:"Choose your car to filter a compatible charger, cable and protection."})+'</p><div class="field" style="margin-block-start:16px"><label for="smart-vehicle">'+bi({ar:"سيارتي",en:"My vehicle"})+'</label><select id="smart-vehicle" class="select" data-smart="vehicle">'+vehicles.filter(function(v){return v.category==="car"}).map(function(v){return '<option value="'+v.id+'" '+(state.smart.vehicle===v.id?"selected":"")+'>'+esc(vehicleName(v))+' · '+esc(v.charging.connector)+'</option>'}).join("")+'</select></div><div class="compat-result" aria-live="polite">'+compatible.map(function(item){return '<div class="compat-item"><div><strong><i class="fa-solid '+item.icon+'" aria-hidden="true"></i> '+esc(bi(item.name))+'</strong><span><bdi>'+esc(item.meta)+'</bdi></span></div><span class="badge badge-brand"><i class="fa-solid fa-check" aria-hidden="true"></i>'+bi({ar:"متوافق",en:"Compatible"})+'</span></div>'}).join("")+'</div></article>'+
+          '<article class="smart-demo card"><span class="badge badge-brand">'+bi({ar:"تقييم توضيحي",en:"Illustrative score"})+'</span><h2>'+bi({ar:"جاهزية منطقتك",en:"Your EV-readiness score"})+'</h2><p class="muted tiny">'+bi({ar:"اختر المدينة لمشاهدة نموذج يوازن الشحن والصيانة المحلية.",en:"Choose a city to see a sample score balancing charging and local service."})+'</p><div class="city-pills" role="group" aria-label="'+esc(bi({ar:"اختيار المدينة",en:"Choose city"}))+'">'+Object.keys(cityData).map(function(key){return '<button class="city-pill '+(state.smart.city===key?"active":"")+'" type="button" data-action="smart-city" data-city="'+key+'">'+esc(bi(cityData[key].label))+'</button>'}).join("")+'</div><div class="readiness-score"><div class="score-ring" style="--score:'+city.score+'"><b><bdi>'+city.score+'/10</bdi></b></div><div class="timeline" style="margin:0"><div class="timeline-step"><b><i class="fa-solid fa-charging-station" aria-hidden="true"></i></b><div><strong><bdi>'+city.stations+'</bdi> '+bi({ar:"نقطة شحن نموذجية",en:"sample charging points"})+'</strong><span>'+bi({ar:"ضمن نطاق المدينة",en:"within the city area"})+'</span></div></div><div class="timeline-step"><b><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i></b><div><strong><bdi>'+city.service+'</bdi> '+bi({ar:"مراكز خدمة نموذجية",en:"sample service centres"})+'</strong><span>'+bi({ar:"البيانات الحية قريباً",en:"live data coming soon"})+'</span></div></div></div></div></article>'+
+          '<article class="smart-demo card" style="grid-column:1/-1"><span class="badge badge-volt">'+bi({ar:"محاكي مبسط يعمل الآن",en:"Working simplified simulator"})+'</span><h2>'+bi({ar:"تجربة شاشة السيارة",en:"Vehicle screen experience"})+'</h2><p class="muted tiny">'+bi({ar:"واجهة محاكية عامة لا تنسخ نظام أي مصنع بعينه.",en:"A generic simulated interface that does not copy any manufacturer UI."})+'</p><div class="simulator"><div class="sim-tabs" role="tablist">'+["climate","charging","drive"].map(function(key){return '<button class="sim-tab '+(state.smart.tab===key?"active":"")+'" type="button" role="tab" aria-selected="'+(state.smart.tab===key)+'" data-action="sim-tab" data-tab="'+key+'">'+esc(bi({climate:{ar:"المناخ",en:"Climate"},charging:{ar:"الشحن",en:"Charging"},drive:{ar:"القيادة",en:"Drive"}}[key]))+'</button>'}).join("")+'</div><div class="sim-screen"><i class="fa-solid '+sim.icon+'" aria-hidden="true"></i><h3>'+esc(bi(sim.title))+'</h3><div class="sim-value"><bdi>'+esc(sim.value)+'</bdi></div><p>'+esc(bi(sim.note))+'</p></div></div></article>'+
+        '</div></section>'+
+        '<section class="section-tight"><div class="section-head"><div><span class="eyebrow">'+bi({ar:"خارطة التنفيذ",en:"Delivery roadmap"})+'</span><h2>'+bi({ar:"ما يعمل وما هو قادم",en:"What works and what is coming"})+'</h2><p>'+bi({ar:"كل بطاقة تذكر بوضوح اعتمادها التقني حتى لا نعرض وعوداً غير جاهزة.",en:"Every card states its technical dependency so unfinished services are never presented as live."})+'</p></div></div><div class="feature-roadmap">'+roadmap.map(function(item){var live=item.phase==="mvp";return '<article class="feature-card card"><div class="feature-card-head"><span class="feature-icon"><i class="fa-solid '+item.icon+'" aria-hidden="true"></i></span>'+(live?'<span class="badge badge-volt">'+bi({ar:"متاح كنموذج",en:"Prototype ready"})+'</span>':'<span class="badge badge-slate">'+tx("comingSoon")+'</span>')+'</div><h3>'+esc(bi(item.title))+'</h3><p>'+esc(bi(item.desc))+'</p>'+(item.href?'<a class="journey-link" href="'+item.href+'">'+(live?bi({ar:"جرّب الآن",en:"Try it now"}):bi({ar:"شاهد الأساس الحالي",en:"See current foundation"}))+' <i class="fa-solid fa-arrow-left" aria-hidden="true"></i></a>':'')+'<div class="feature-needs"><i class="fa-solid fa-database" aria-hidden="true"></i> '+esc(bi(item.need))+'</div></article>'}).join("")+'</div></section>'+
+        '<div class="legal-note">'+bi({ar:"ميزات الحجز والدفع ورفع التقارير والتنبيهات والشحن P2P لن تكون حقيقية وآمنة دون نظام خلفي وقاعدة بيانات وهوية وصلاحيات وسجل تدقيق. كما يجب مراجعة تنظيم إعادة بيع الكهرباء والتأمين والمسؤولية قبل إطلاق P2P في أي دولة.",en:"Booking, payments, report uploads, alerts and P2P charging cannot be real or safe without a backend, database, identity, permissions and audit logs. Electricity resale, insurance and liability rules must also be reviewed before launching P2P in any country."})+'</div></div></div>';
+    }
     function filteredStations(){
       return stations.filter(function(s){return (state.charging.city==="all"||s.cityKey===state.charging.city)&&s.power>=state.charging.power});
     }
@@ -1032,7 +1289,8 @@
       '</div></div>';
     }
     function serviceCard(service){
-      return '<article class="service-card card reveal"><div style="display:flex;justify-content:space-between;align-items:start;gap:12px"><span class="service-icon"><i class="fa-solid '+service.icon+'" aria-hidden="true"></i></span>'+phaseBadge(service.phase)+'</div><h3>'+esc(bi(service.title))+'</h3><p>'+esc(bi(service.desc))+'</p><button class="journey-link" style="border:0;background:none;cursor:pointer" type="button" data-action="service" data-id="'+service.id+'">'+tx("learnMore")+' <i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button></article>';
+      var cta=service.id==="home"?'<button class="journey-link" style="border:0;background:none;cursor:pointer" type="button" data-action="charger-quiz">'+bi({ar:"ابدأ المطابقة",en:"Start matching"})+' <i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>':service.id==="finance"?'<a class="journey-link" href="#/tools">'+bi({ar:"افتح الحاسبة",en:"Open calculator"})+' <i class="fa-solid fa-arrow-left" aria-hidden="true"></i></a>':service.id==="battery"||service.id==="verified"?'<a class="journey-link" href="#/vehicle/ioniq-5-used">'+bi({ar:"جرّب على سيارة",en:"Try on a vehicle"})+' <i class="fa-solid fa-arrow-left" aria-hidden="true"></i></a>':'<button class="journey-link" style="border:0;background:none;cursor:pointer" type="button" data-action="service" data-id="'+service.id+'">'+bi({ar:"افتح النموذج",en:"Open demo"})+' <i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>';
+      return '<article class="service-card card reveal"><div style="display:flex;justify-content:space-between;align-items:start;gap:12px"><span class="service-icon"><i class="fa-solid '+service.icon+'" aria-hidden="true"></i></span>'+phaseBadge(service.phase)+'</div><h3>'+esc(bi(service.title))+'</h3><p>'+esc(bi(service.desc))+'</p>'+cta+'</article>';
     }
     function servicesView(){
       return '<div class="route-view page-space"><div class="shell"><span class="eyebrow">'+bi({ar:"من البيع إلى الملكية",en:"From sale to ownership"})+'</span><h1 class="page-title" tabindex="-1">'+bi({ar:"امتلك الكهرباء، لا قلقها",en:"Own the electric experience, not its uncertainty"})+'</h1><p class="page-lead">'+bi({ar:"كل خدمة تحمل مرحلتها بوضوح. لا نقدّم ميزة مستقبلية وكأنها متاحة اليوم.",en:"Every service shows its phase clearly. A future capability is never presented as live today."})+'</p>'+
@@ -1047,6 +1305,10 @@
           [{ar:"الرياض · BYD Sealion 7",en:"Riyadh · BYD Sealion 7"},{ar:"6 أشهر · 9,200 كم",en:"6 months · 9,200 km"},{ar:"قيمة جيدة وتقنية بطارية مطمئنة، مع حاجة لمزيد من نقاط الخدمة.",en:"Good value and reassuring battery tech; more service points would help."}]
         ].map(function(review,i){return '<article class="journey-card reveal"><span class="num">0'+(i+1)+'</span><i class="fa-solid fa-user-check" aria-hidden="true"></i><h3>'+esc(bi(review[0]))+'</h3><p><strong>'+esc(bi(review[1]))+'</strong><br>'+esc(bi(review[2]))+'</p><span class="journey-link">'+bi({ar:"مراجعة تجريبية موثقة",en:"Verified demo review"})+'</span></article>'}).join("")+'</div></section>'+
       '</div></div>';
+    }
+    function accountView(){
+      var myVehicle=vehicles.find(function(v){return v.id===state.smart.vehicle})||vehicles[0],prediction=batteryPrediction(myVehicle);
+      return '<div class="route-view page-space"><div class="shell"><span class="eyebrow">'+bi({ar:"مساحتي الشخصية",en:"My personal space"})+'</span><h1 class="page-title" tabindex="-1">'+bi({ar:"صفحتي في EVHUB",en:"My EVHUB page"})+'</h1><p class="page-lead">'+bi({ar:"سيارتك وتفضيلاتك ومحفوظاتك وأدواتك في مكان واحد بسيط.",en:"Your vehicle, preferences, saved items and tools in one simple place."})+'</p><section class="account-hero card"><div class="account-identity"><span class="account-avatar"><i class="fa-solid fa-user" aria-hidden="true"></i></span><div><h2>'+bi({ar:"مرحبًا بك",en:"Welcome"})+'</h2><p>'+bi({ar:"حساب تجريبي محفوظ على هذا الجهاز فقط",en:"Demo account stored only on this device"})+'</p></div></div><button class="btn btn-primary" type="button" data-action="account-login"><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i>'+bi({ar:"تأكيد رقم الجوال",en:"Verify mobile"})+'</button></section><div class="dashboard-grid" style="margin-block-start:18px"><div class="metric card"><span>'+bi({ar:"المركبات المحفوظة",en:"Saved vehicles"})+'</span><strong><bdi>'+state.saved.size+'</bdi></strong><small>'+bi({ar:"في قائمتك",en:"in your list"})+'</small></div><div class="metric card"><span>'+bi({ar:"قائمة المقارنة",en:"Comparison list"})+'</span><strong><bdi>'+state.compare.size+'/3</bdi></strong><small>'+bi({ar:"مركبات مختارة",en:"vehicles selected"})+'</small></div><div class="metric card"><span>'+bi({ar:"مدينتي",en:"My city"})+'</span><strong>'+esc(bi(prediction.city.label))+'</strong><small>'+esc(bi(prediction.city.climate))+'</small></div><div class="metric card"><span>'+bi({ar:"توقع البطارية بعد 5 سنوات",en:"Battery estimate in 5 years"})+'</span><strong><bdi>'+prediction.y5.toFixed(1)+'%</bdi></strong><small>'+esc(vehicleName(myVehicle))+'</small></div></div><div class="account-grid"><section class="content-card card"><h2>'+bi({ar:"ملف سيارتي",en:"My vehicle profile"})+'</h2><div class="field"><label for="account-vehicle">'+bi({ar:"السيارة",en:"Vehicle"})+'</label><select id="account-vehicle" class="select" data-smart="vehicle">'+vehicles.filter(function(v){return v.category==="car"}).map(function(v){return '<option value="'+v.id+'" '+(state.smart.vehicle===v.id?"selected":"")+'>'+esc(vehicleName(v))+'</option>'}).join("")+'</select></div><div class="field"><label for="account-city">'+bi({ar:"المدينة الأساسية",en:"Home city"})+'</label><select id="account-city" class="select" data-battery="city">'+["Riyadh","Jeddah","Dammam","Makkah","Madinah","Abha"].map(function(key){var item=batteryCityProfile(key);return '<option value="'+key+'" '+(state.battery.city===key?"selected":"")+'>'+esc(bi(item.label))+'</option>'}).join("")+'</select></div><div class="snapshot-banner" style="margin-block-end:0"><div><strong>'+esc(vehicleName(myVehicle))+'</strong><p><bdi>'+myVehicle.charging.connector+' · '+myVehicle.charging.ac+' kW AC · '+myVehicle.range.ksa+' km</bdi></p></div><a class="btn btn-dark btn-sm" href="#/vehicle/'+myVehicle.id+'">'+bi({ar:"افتح صفحة السيارة",en:"Open vehicle page"})+'</a></div></section><aside class="content-card card"><h2>'+bi({ar:"اختصاراتي",en:"My shortcuts"})+'</h2><div class="account-action-grid"><button class="account-action" type="button" data-action="saved"><i class="fa-solid fa-heart" aria-hidden="true"></i><span><strong>'+bi({ar:"المحفوظات",en:"Saved"})+'</strong><span>'+bi({ar:"ارجع لسياراتك بسرعة",en:"Return to vehicles quickly"})+'</span></span></button><a class="account-action" href="#/compare"><i class="fa-solid fa-code-compare" aria-hidden="true"></i><span><strong>'+tx("navCompare")+'</strong><span>'+bi({ar:"قارن اختياراتك",en:"Compare your picks"})+'</span></span></a><a class="account-action" href="#/services"><i class="fa-solid fa-shield-heart" aria-hidden="true"></i><span><strong>'+tx("navServices")+'</strong><span>'+bi({ar:"التوقعات والأدوات",en:"Predictions and tools"})+'</span></span></a><a class="account-action" href="#/charging"><i class="fa-solid fa-charging-station" aria-hidden="true"></i><span><strong>'+tx("navCharging")+'</strong><span>'+bi({ar:"المحطات القريبة",en:"Nearby stations"})+'</span></span></a></div></aside></div></div></div>';
     }
     function workspaceView(role){
       role=["seller","dealer","fleet","admin"].indexOf(role)>=0?role:"dealer";
@@ -1071,6 +1333,7 @@
     }
     function render(resetScroll){
       if(mapInstance){try{mapInstance.remove()}catch(e){}mapInstance=null;mapMarkers=[]}
+      if(vehicleRangeMap){try{vehicleRangeMap.remove()}catch(e){}vehicleRangeMap=null;vehicleRangeLayers=[];vehicleRangeContext=null}
       var route=routeInfo(),html;
       if(route.name==="home"){html=homeView()}
       else if(route.name==="marketplace"){html=marketplaceView()}
@@ -1078,15 +1341,17 @@
       else if(route.name==="compare"){html=compareView()}
       else if(route.name==="tools"){html=toolsView()}
       else if(route.name==="charging"){html=chargingView()}
-      else if(route.name==="services"){html=servicesView()}
+      else if(route.name==="services"){html=servicesHubView()}
+      else if(route.name==="account"){html=accountView()}
       else{html=workspaceView(route.parts[1])}
       var apply=function(){
         document.getElementById("app").innerHTML=html;
         updateShell();
         initReveals();
         animateCounters();
-        if(route.name==="tools"){updateTools()}
+        if(route.name==="tools"||route.name==="services"){updateTools()}
         if(route.name==="charging"){setTimeout(initMap,60)}
+        if(route.name==="vehicle"){setTimeout(function(){initVehicleRangeMap(route.parts[1])},60)}
         if(resetScroll!==false){
           window.scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
           var h1=document.querySelector("#app h1");
@@ -1145,6 +1410,61 @@
       if(document.getElementById("fuel-cost-bar")){document.getElementById("fuel-cost-bar").style.width=Math.round(fuelCost/max*100)+"%"}
       persist();
     }
+    function drawVehicleRange(v,lat,lng,source){
+      if(!vehicleRangeMap){return}
+      vehicleRangeLayers.forEach(function(layer){try{vehicleRangeMap.removeLayer(layer)}catch(e){}});
+      vehicleRangeLayers=[];
+      vehicleRangeContext={vehicle:v,lat:lat,lng:lng,source:source};
+      var oneWay=Math.max(20,Number(v.range.ksa))*1000,roundTrip=oneWay*.46;
+      var origin=L.marker([lat,lng]).addTo(vehicleRangeMap).bindTooltip(source,{permanent:false,direction:"top"});
+      var reach=L.circle([lat,lng],{radius:oneWay,color:"#0891b2",weight:2,fillColor:"#22d3ee",fillOpacity:.07}).addTo(vehicleRangeMap);
+      var safe=L.circle([lat,lng],{radius:roundTrip,color:"#65a30d",weight:2,fillColor:"#a3e635",fillOpacity:.12}).addTo(vehicleRangeMap);
+      vehicleRangeLayers=[origin,reach,safe];
+      vehicleRangeMap.fitBounds(reach.getBounds(),{padding:[24,24]});
+      var result=document.getElementById("range-trip-result");
+      if(result){result.className="range-trip-result";result.innerHTML='<i class="fa-solid fa-location-arrow" aria-hidden="true"></i><div><strong>'+bi({ar:"اختر وجهة على الخريطة",en:"Choose a destination on the map"})+'</strong><p>'+bi({ar:"سنحسب المسافة ونسبة البطارية المتوقعة وإمكانية العودة.",en:"We will calculate distance, expected battery remaining and return feasibility."})+'</p></div><b><bdi>— km</bdi></b>'}
+    }
+    function geoDistanceKm(lat1,lng1,lat2,lng2){
+      var rad=Math.PI/180,dLat=(lat2-lat1)*rad,dLng=(lng2-lng1)*rad;
+      var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*rad)*Math.cos(lat2*rad)*Math.sin(dLng/2)*Math.sin(dLng/2);
+      return 6371*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+    }
+    function evaluateRangeDestination(lat,lng){
+      if(!vehicleRangeMap||!vehicleRangeContext){return}
+      vehicleRangeLayers.slice(3).forEach(function(layer){try{vehicleRangeMap.removeLayer(layer)}catch(e){}});
+      vehicleRangeLayers=vehicleRangeLayers.slice(0,3);
+      var ctx=vehicleRangeContext,v=ctx.vehicle,distance=geoDistanceKm(ctx.lat,ctx.lng,lat,lng),usable=Math.max(20,Number(v.range.ksa));
+      var remaining=Math.max(0,Math.round(100-(distance/usable)*100)),reachable=distance<=usable,roundTrip=distance*2<=usable*.92;
+      var line=L.polyline([[ctx.lat,ctx.lng],[lat,lng]],{color:reachable?"#0891b2":"#dc2626",weight:4,dashArray:"8 8"}).addTo(vehicleRangeMap);
+      var destination=L.marker([lat,lng]).addTo(vehicleRangeMap).bindTooltip(bi({ar:"الوجهة المختارة",en:"Selected destination"}),{direction:"top"}).openTooltip();
+      vehicleRangeLayers.push(line,destination);
+      var result=document.getElementById("range-trip-result");
+      if(result){result.className="range-trip-result "+(reachable?"reachable":"unreachable");result.innerHTML='<i class="fa-solid '+(reachable?'fa-circle-check':'fa-triangle-exclamation')+'" aria-hidden="true"></i><div><strong>'+(reachable?bi({ar:"يمكن الوصول بشحنة واحدة",en:"Reachable on one charge"}):bi({ar:"خارج نطاق الشحنة الواحدة",en:"Outside one-charge range"}))+'</strong><p>'+bi({ar:"البطارية المتوقعة عند الوصول: ",en:"Expected battery on arrival: "})+'<bdi>'+remaining+'%</bdi> · '+(roundTrip?bi({ar:"العودة ممكنة ضمن الهامش",en:"round trip fits the safety margin"}):bi({ar:"ستحتاج شحنًا للعودة",en:"charging is recommended for the return"}))+'</p></div><b><bdi>'+distance.toFixed(1)+' km</bdi></b>'}
+    }
+    function initVehicleRangeMap(id){
+      var container=document.getElementById("vehicle-range-map"),v=vehicles.find(function(item){return item.id===id})||vehicles[0];
+      if(!container){return}
+      if(!window.L){container.innerHTML='<div class="map-fallback"><p>'+bi({ar:"تعذر تحميل الخريطة، لكن تقدير المدى ما زال ظاهرًا أسفلها.",en:"The map could not load, but the range estimate remains visible below."})+'</p></div>';return}
+      try{
+        var base=batteryCityProfile(state.battery.city);
+        vehicleRangeMap=L.map(container,{zoomControl:true,scrollWheelZoom:false});
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"&copy; OpenStreetMap contributors"}).addTo(vehicleRangeMap);
+        vehicleRangeMap.on("click",function(event){evaluateRangeDestination(event.latlng.lat,event.latlng.lng)});
+        drawVehicleRange(v,base.lat,base.lng,bi(base.label));
+      }catch(error){container.innerHTML='<div class="map-fallback"><p>'+bi({ar:"الخريطة غير متاحة الآن.",en:"The map is unavailable right now."})+'</p></div>'}
+    }
+    function locateVehicleRange(id){
+      var v=vehicles.find(function(item){return item.id===id})||vehicles[0],status=document.getElementById("range-location-status");
+      if(!navigator.geolocation){showToast(bi({ar:"المتصفح لا يدعم تحديد الموقع",en:"This browser does not support location"}));return}
+      if(status){status.textContent=bi({ar:"بانتظار إذن الموقع…",en:"Waiting for location permission…"})}
+      navigator.geolocation.getCurrentPosition(function(position){
+        drawVehicleRange(v,position.coords.latitude,position.coords.longitude,bi({ar:"موقعك الحالي",en:"Your current location"}));
+        if(status){status.textContent=bi({ar:"تم تحديث الخريطة من موقعك الحالي. الدوائر تقديرية ولا تراعي شكل الطرق أو الارتفاعات.",en:"Map updated from your current location. Circles are illustrative and do not account for roads or elevation."})}
+      },function(){
+        if(status){status.textContent=bi({ar:"تعذر الوصول إلى موقعك. أبقينا نقطة الانطلاق على المدينة المختارة.",en:"Your location was unavailable, so the selected city remains the starting point."})}
+        showToast(bi({ar:"لم نتمكن من استخدام موقعك",en:"We could not use your location"}));
+      },{enableHighAccuracy:false,timeout:10000,maximumAge:300000});
+    }
     function initMap(){
       var container=document.getElementById("charging-map");
       if(!container){return}
@@ -1192,6 +1512,7 @@
       else if(action==="saved"){openSaved()}
       else if(action==="consult"){openConsult()}
       else if(action==="notifications"){openNotifications()}
+      else if(action==="account-page"){navigate("account")}
       else if(action==="account-login"){openLogin()}
       else if(action==="chat"){openChat()}
       else if(action==="close-dialog"){closeDialog()}
@@ -1219,7 +1540,20 @@
         if(main){main.src=trigger.dataset.src;document.querySelectorAll(".thumb").forEach(function(t){t.classList.remove("active")});trigger.classList.add("active")}
       }
       else if(action==="differences"){
-        document.querySelectorAll(".compare-table tr.same").forEach(function(row){row.hidden=trigger.checked});
+        document.querySelectorAll(".compare-table tr.same,.compare-mobile-row.same").forEach(function(row){row.hidden=trigger.checked});
+      }
+      else if(action==="smart-city"){state.smart.city=trigger.dataset.city;state.battery.city=trigger.dataset.city;persist();render(false)}
+      else if(action==="sim-tab"){state.smart.tab=trigger.dataset.tab;persist();render(false)}
+      else if(action==="battery-usage"){
+        var preset={heavy:{dailyKm:110,daysWeek:7,dcShare:55,sunExposure:2},regular:{dailyKm:38,daysWeek:4,dcShare:25,sunExposure:1},light:{dailyKm:15,daysWeek:2,dcShare:10,sunExposure:0}}[trigger.dataset.usage];
+        state.battery.usage=trigger.dataset.usage;
+        if(preset){Object.keys(preset).forEach(function(key){state.battery[key]=preset[key]})}
+        persist();render(false);
+      }
+      else if(action==="locate-range"){locateVehicleRange(id)}
+      else if(action==="scroll-section"){
+        var section=document.getElementById(trigger.dataset.target);
+        if(section){section.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"})}
       }
       else if(action==="service"){openService(id)}
       else if(action==="service-interest"){closeDialog();showToast(bi({ar:"تم تسجيل اهتمام تجريبي بالخدمة",en:"Demo service interest recorded"}))}
@@ -1232,6 +1566,11 @@
       else if(action==="demo-action"){showToast(bi({ar:"هذه وظيفة توضيحية ضمن النموذج",en:"This is a prototype demonstration"}))}
       else if(action==="moderate"){moderate(id,trigger.dataset.decision)}
       else if(action==="go-market"){closeDialog();navigate("marketplace")}
+    });
+    document.addEventListener("keydown",function(event){
+      var card=event.target.closest('.vehicle-card[role="link"]');
+      if(!card||event.target!==card||(event.key!=="Enter"&&event.key!==" ")){return}
+      event.preventDefault();navigate("vehicle/"+card.dataset.id);
     });
     document.addEventListener("change",function(event){
       var target=event.target;
@@ -1246,6 +1585,17 @@
         var toolKey=target.dataset.tool;
         state.tools[toolKey]=toolKey==="vehicle"?target.value:Number(target.value);
         updateTools();
+      }else if(target.matches("[data-smart]")){
+        state.smart[target.dataset.smart]=target.value;
+        persist();render(false);
+      }else if(target.matches("[data-battery]")){
+        state.battery[target.dataset.battery]=target.value;
+        if(target.dataset.battery==="city"){state.smart.city=target.value}
+        persist();render(false);
+      }else if(target.matches("[data-battery-model]")){
+        state.battery[target.dataset.batteryModel]=Number(target.value);
+        state.battery.usage="custom";
+        updateBatteryWidget(target.dataset.vehicle);
       }
     });
     document.addEventListener("input",function(event){
@@ -1254,6 +1604,10 @@
         var key=target.dataset.tool;
         state.tools[key]=key==="vehicle"?target.value:Number(target.value);
         updateTools();
+      }else if(target.matches("[data-battery-model]")){
+        state.battery[target.dataset.batteryModel]=Number(target.value);
+        state.battery.usage="custom";
+        updateBatteryWidget(target.dataset.vehicle);
       }
     });
     document.addEventListener("submit",function(event){
